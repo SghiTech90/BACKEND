@@ -119,7 +119,6 @@ const getPool = async (office) => {
   }
 };
 
-<<<<<<< HEAD
 // Function to close all database pools gracefully
 const closeAllPools = async () => {
   console.log('Closing all database pools...');
@@ -138,16 +137,11 @@ const closeAllPools = async () => {
   console.log('All database pools closed');
 };
 
-=======
->>>>>>> 23a98b8477bd27026f7c69dedc6efd520723ac18
 // Export necessary components
 module.exports = {
   sql,
   getPool, // The function controllers will use
-<<<<<<< HEAD
   closeAllPools, // Function to close all pools gracefully
-=======
->>>>>>> 23a98b8477bd27026f7c69dedc6efd520723ac18
   // Export individual pools/promises only if needed elsewhere, otherwise keep internal
   pool1, pool2, pool3, pool4, pool5, pool6,
   poolConnect1, poolConnect2, poolConnect3, poolConnect4, poolConnect5, poolConnect6 
