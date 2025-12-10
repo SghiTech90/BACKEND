@@ -7,6 +7,7 @@ const {
   getUniqueHeadNames,
   getBudgetSummaryByYear,
   getBudgetDetailsByYearAndHead,
+
   BudgetMaster2515,
   BudgetMasterNABARD,
   BudgetMasterMP,
@@ -20,6 +21,7 @@ const {
   BudgetMasterBuilding,
   BudgetMasterAunty,
   BudgetMasterRoad,
+
   Cont2515,
   ContAnnuity,
   ContBuilding,
@@ -35,58 +37,111 @@ const {
   ContGAT_D,
   ContResidentialBuilding2216,
   ContNonResidentialBuilding2909,
+
   contractorGraph,
+
   ContractorBuildingReportApi,
   ContractorCRFReportApi,
   ContractorNabardReportApi,
   ContractorRoadReportApi,
   ContractorDPDCReportApi,
   ContractorAnnuityReportApi,
+
   ContractorBuildingUpdatePanelApi,
   ContractorCRFUpdatePanelApi,
   ContractorNABARDUpdatePanelApi,
   ContractorRoadUpdatePanelApi,
   ContractorAuntyUpdatePanelApi,
+
   DEBuildingUpdatePanelApi,
   DECRFUpdatePanelApi,
   DENABARDUpdatePanelApi,
   DERoadUpdatePanelApi,
   DEAuntyUpdatePanelApi,
+
   ContUpdPanelBuilding,
   ContUpdPanelCrf,
   ContUpdPanelNABARD,
   ContUpdPanelROAD,
   ContUpdPanelAunty,
+  ContUpdPanel2515,
+  ContUpdPanelDeposite_fund,
+  ContUpdPanelDPDC,
+  ContUpdPanelGAT_A,
+  ContUpdPanelGAT_D,
+  ContUpdPanelGAT_FBC,
+  ContUpdPanelMLA,
+  ContUpdPanelMP,
+  ContUpdPanelNonResBui,
+  ContUpdPanelResBui,
+
   ContUpdPhotoAunty,
   ContUpdPhotoRoad,
   ContUpdPhotoCrf,
   ContUpdPhotoNabard,
   ContUpdPhotoBuilding,
+  ContUpdPhoto2515,
+  ContUpdPhotoDeposite_fund,
+  ContUpdPhotoDPDC,
+  ContUpdPhotoGAT_A,
+  ContUpdPhotoGAT_D,
+  ContUpdPhotoGAT_FBC,
+  ContUpdPhotoMLA,
+  ContUpdPhotoMP,
+  ContUpdPhotoNonResBui,
+  ContUpdPhotoResBui,
+
   ShowImage,
   uploadImage,
+
   UpdateStatusBuilding,
   UpdateStatusAunty,
   UpdateStatusRoad,
   UpdateStatusNabard,
   UpdateStatusCrf,
+  UpdateStatus2515,
+  UpdateStatusDepositeFund,
+  UpdateStatusDPDC,
+  UpdateStatusGatA,
+  UpdateStatusGatB,
+  UpdateStatusGatFBC,
+  UpdateStatusMLA,
+  UpdateStatusMP,
+  UpdateStatusNRB,
+  UpdateStatusRB,
+
   EEUpdPanelAunty,
   EEUpdPanelROAD,
   EEUpdPanelCrf,
   EEUpdPanelNABARD,
   EEUpdPanelBuilding,
+    EEUpdPanel2515,
+  EEUpdPanelDepositeFund,
+  EEUpdPanelDPDC,
+  EEUpdPanelGatA,
+  EEUpdPanelGatD,
+  EEUpdPanelGatFBC,
+  EEUpdPanelMLA,
+  EEUpdPanelMP,
+  EEUpdPanelRB,
+  EEUpdPanelNRB,
+
   allImage,
+
   CircleChartCount,
   CirclePieChartCount,
-     CircleNotificationToday,
+
+  CircleNotificationToday,
   CircleNotificationWeek,
   CircleNotificationHalfMonth,
   CircleNotificationMonth,
-    CircleNotificationBtnToday,
+  CircleNotificationBtnToday,
   CircleNotificationBtnWeek,
   CircleNotificationBtnHalfMonth,
   CircleNotificationBtnMonth,
   getCircleNotificationTotal,
-    getBuilding,
+
+  getBuilding,
   getResidentialBuilding,
   getNonResidentialBuilding,
   getCRF,
@@ -183,6 +238,16 @@ router.post("/ContUpdPanelNABARD", ContUpdPanelNABARD);
 router.post("/ContUpdPanelCRF", ContUpdPanelCrf);
 router.post("/ContUpdPanelROAD", ContUpdPanelROAD);
 router.post("/ContUpdPanelAunty", ContUpdPanelAunty);
+router.post("/ContUpdPanel2515", ContUpdPanel2515);
+router.post("/ContUpdPanelDeposite_fund", ContUpdPanelDeposite_fund);
+router.post("/ContUpdPanelDPDC", ContUpdPanelDPDC);
+router.post("/ContUpdPanelGAT_A", ContUpdPanelGAT_A);
+router.post("/ContUpdPanelGAT_D", ContUpdPanelGAT_D);
+router.post("/ContUpdPanelGAT_FBC", ContUpdPanelGAT_FBC);
+router.post("/ContUpdPanelMLA", ContUpdPanelMLA);
+router.post("/ContUpdPanelMP", ContUpdPanelMP);
+router.post("/ContUpdPanelNonResBui", ContUpdPanelNonResBui);
+router.post("/ContUpdPanelResBui", ContUpdPanelResBui);
 
 //EE Update Panel Select Queries
 //--EE = मे.ए.एम.कोठारी // ShakhaAbhyantaName= श्री. पी एम घोडस्कर //  UpabhyantaName = श्री. पी एम घोडस्कर
@@ -191,6 +256,16 @@ router.post("/EEUpdPanelNABARD", EEUpdPanelNABARD);
 router.post("/EEUpdPanelCRF", EEUpdPanelCrf);
 router.post("/EEUpdPanelROAD", EEUpdPanelROAD);
 router.post("/EEUpdPanelAunty", EEUpdPanelAunty);
+router.post("/EEUpdPanel2515", EEUpdPanel2515);
+router.post("/EEUpdPanelDepositeFund", EEUpdPanelDepositeFund);
+router.post("/EEUpdPanelDPDC", EEUpdPanelDPDC);
+router.post("/EEUpdPanelGatA", EEUpdPanelGatA);
+router.post("/EEUpdPanelGatD", EEUpdPanelGatD);
+router.post("/EEUpdPanelGatFBC", EEUpdPanelGatFBC);
+router.post("/EEUpdPanelMLA", EEUpdPanelMLA);
+router.post("/EEUpdPanelMP", EEUpdPanelMP);
+router.post("/EEUpdPanelRB", EEUpdPanelRB);
+router.post("/EEUpdPanelNRB", EEUpdPanelNRB);
 
 //--Contractor -- upload photo -- click photo in the grid --queries for that
 router.post("/ContUpdPhotoBuilding", ContUpdPhotoBuilding);
@@ -198,6 +273,16 @@ router.post("/ContUpdPhotoNABARD", ContUpdPhotoNabard);
 router.post("/ContUpdPhotoCRF", ContUpdPhotoCrf);
 router.post("/ContUpdPhotoROAD", ContUpdPhotoRoad);
 router.post("/ContUpdPhotoAunty", ContUpdPhotoAunty);
+router.post("/ContUpdPhoto2515", ContUpdPhoto2515);
+router.post("/ContUpdPhotoDeposite_fund", ContUpdPhotoDeposite_fund);
+router.post("/ContUpdPhotoDPDC", ContUpdPhotoDPDC);
+router.post("/ContUpdPhotoGAT_A", ContUpdPhotoGAT_A);
+router.post("/ContUpdPhotoGAT_D", ContUpdPhotoGAT_D);
+router.post("/ContUpdPhotoGAT_FBC", ContUpdPhotoGAT_FBC);
+router.post("/ContUpdPhotoMLA", ContUpdPhotoMLA);
+router.post("/ContUpdPhotoMP", ContUpdPhotoMP);
+router.post("/ContUpdPhotoNonResBui", ContUpdPhotoNonResBui);
+router.post("/ContUpdPhotoResBui", ContUpdPhotoResBui);
 
 //Insert Image
 router.post("/uploadImage", uploadImage);
@@ -210,6 +295,16 @@ router.post("/UpdateStatusAunty", UpdateStatusAunty);
 router.post("/UpdateStatusRoad", UpdateStatusRoad);
 router.post("/UpdateStatusNabard", UpdateStatusNabard);
 router.post("/UpdateStatusCrf", UpdateStatusCrf);
+router.post("/UpdateStatus2515", UpdateStatus2515);
+router.post("/UpdateStatusDepositeFund", UpdateStatusDepositeFund);
+router.post("/UpdateStatusDPDC", UpdateStatusDPDC);
+router.post("/UpdateStatusGatA", UpdateStatusGatA);
+router.post("/UpdateStatusGatB", UpdateStatusGatB);
+router.post("/UpdateStatusGatFBC", UpdateStatusGatFBC);
+router.post("/UpdateStatusMLA", UpdateStatusMLA);
+router.post("/UpdateStatusMP", UpdateStatusMP);
+router.post("/UpdateStatusNRB", UpdateStatusNRB);
+router.post("/UpdateStatusRB", UpdateStatusRB);
 
 //Circle
 router.post("/CircleChartCount", CircleChartCount);

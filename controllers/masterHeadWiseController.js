@@ -749,6 +749,41 @@ SELECT ROW_NUMBER() OVER(PARTITION BY a.[RDF_SrNo] ORDER BY a.[Upvibhag]) as 'Sr
   }
 };
 
+const MASTERHEADWISEREPOST2515 = async (req, res) => {
+  try {
+    const { office } = req.body;
+
+    if (!office) {
+      return res.status(400).json({
+        success: false,
+        message: "office parameters are required",
+      });
+    }
+
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+SELECT ROW_NUMBER() OVER(PARTITION BY a.[LekhaShirshName] ORDER BY a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]) as 'SrNo', a.[WorkId] as 'वर्क आयडी',a.[U_WIN] as 'U_WIN',a.[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',a.[KamacheName] as 'कामाचे नाव',a.[LekhaShirshName] as 'लेखाशीर्ष नाव',a.[SubType] as 'विभाग',a.[Upvibhag] as 'उपविभाग',a.[Taluka] as 'तालुका',a.[ArthsankalpiyBab] as 'अर्थसंकल्पीय बाब',convert(nvarchar(max),a.[ShakhaAbhyantaName])+' '+convert(nvarchar(max),a.[ShakhaAbhiyantMobile]) as 'शाखा अभियंता नाव',convert(nvarchar(max),a.[UpabhyantaName])+' '+convert(nvarchar(max),a.[UpAbhiyantaMobile]) as 'उपअभियंता नाव',a.[AmdaracheName] as 'आमदारांचे नाव',a.[KhasdaracheName] as 'खासदारांचे नाव',convert(nvarchar(max),a.[ThekedaarName])+' '+convert(nvarchar(max),a.[ThekedarMobile]) as 'कंत्राटदार नाव',convert(nvarchar(max),a.[PrashaskiyAmt])as 'प्रशासकीय मान्यता रक्कम',convert(nvarchar(max),a.[PrashaskiyKramank])+' '+convert(nvarchar(max),a.[PrashaskiyAmt])+' '+convert(nvarchar(max),a.[PrashaskiyDate])as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',convert(nvarchar(max),a.[TrantrikAmt])as 'तांत्रिक मान्यता रक्कम',convert(nvarchar(max),a.[TrantrikKrmank])+' '+convert(nvarchar(max),a.[TrantrikAmt])+' '+convert(nvarchar(max),a.[TrantrikDate])as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक',a.[Kamachevav] as 'कामाचा वाव',convert(nvarchar(max),a.[NividaKrmank])+' '+convert(nvarchar(max),a.[NividaDate])as 'कार्यारंभ आदेश दिनांक',a.[NividaAmt] as 'निविदा रक्कम % कमी / जास्त',a.[kamachiMudat] as 'बांधकाम कालावधी',a.[KamPurnDate] as 'काम पूर्ण तारीख',CAST(CASE WHEN b.[MudatVadhiDate] = ' ' or b.[MudatVadhiDate] = '0' THEN N'होय' ELSE N'नाही' END as nvarchar(max)) as 'मुदतवाढ बाबत',b.[ManjurAmt] as 'मंजूर अंदाजित किंमत',b.[MarchEndingExpn] as 'मार्च अखेर खर्च 2026',b.[UrvaritAmt] as 'उर्वरित किंमत',b.[Chalukharch] as 'चालु खर्च',b.[Magilkharch] as 'मागील खर्च',b.[VarshbharatilKharch] as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',b.[AikunKharch] as 'एकुण कामावरील खर्च',b.[Takunone] as 'प्रथम तिमाही तरतूद',b.[Takuntwo] as 'द्वितीय तिमाही तरतूद',b.[Takunthree] as 'तृतीय तिमाही तरतूद',b.[Takunfour] as 'चतुर्थ तिमाही तरतूद',b.[Tartud]as 'अर्थसंकल्पीय तरतूद',b.[AkunAnudan] as 'वितरित तरतूद',b.[Magni] as 'मागणी',b.[Vidyutprama] as 'विद्युतीकरणावरील प्रमा',b.[Vidyutvitarit] as 'विद्युतीकरणावरील वितरित',b.[Itarkhrch] as 'इतर खर्च',b.[Dviguni] as 'दवगुनी ज्ञापने',a.[Pahanikramank] as 'पाहणी क्रमांक',a.[PahaniMudye] as 'पाहणीमुद्ये',b.[DeyakachiSadyasthiti] as 'देयकाची सद्यस्थिती',convert(nvarchar(max),a.[Sadyasthiti])+' '+convert(nvarchar(max),a.[Shera]) as 'शेरा / कामाची सद्यस्थिती',CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0)) as 'C',CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0)) as 'P',CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर' THEN 1 ELSE 0 END as decimal(10,0)) as'TS',b.[Apr] as 'Apr',b.[May] as 'May',b.[Jun] as 'Jun',b.[Jul] as 'Jul',b.[Aug] as 'Aug',b.[Sep] as 'Sep',b.[Oct] as 'Oct',b.[Nov] as 'Nov',b.[Dec] as 'Dec',b.[Jan] as 'Jan',b.[Feb] as 'Feb',b.[Mar] as 'Mar' from BudgetMaster2515 as a join BuildingProvision as b on a.WorkId=b.WorkId  where  b.[Arthsankalpiyyear]=N'2025-2026' union select isNULL ('','')as'SrNo', 'Total' as 'वर्क आयडी',isNULL ('','') as 'U_WIN',isNULL ('Total','') as 'अर्थसंकल्पीय वर्ष',isNULL ('','') as 'कामाचे नाव',isNULL (a.[LekhaShirshName],'') as 'लेखाशीर्ष नाव',isNULL ('','') as 'विभाग',isNULL ('','') as 'उपविभाग',isNULL ('','0') as 'तालुका',isNULL ('','') as 'अर्थसंकल्पीय बाब',isNULL ('','') as 'शाखा अभियंता नाव',isNULL ('','') as 'उपअभियंता नाव',isNULL ('','') as 'आमदारांचे नाव',isNULL ('','') as 'खासदारांचे नाव',isNULL ('','') as 'कंत्राटदार नाव',sum(cast(a.[PrashaskiyAmt] as decimal(10,2))) as 'प्रशासकीय मान्यता रक्कम',isNULL ('','') as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',sum(cast(a.[TrantrikAmt] as decimal(10,2))) as 'तांत्रिक मान्यता रक्कम',isNULL ('','') as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक ',isNULL ('','') as 'कामाचा वाव',isNULL ('','') as 'कार्यारंभ आदेश दिनांक',isNULL ('','') as 'निविदा रक्कम % कमी / जास्त',isNULL ('','') as 'बांधकाम कालावधी',isNULL ('','') as 'काम पूर्ण तारीख',isNULL ('','') as 'मुदतवाढ बाबत',sum(b.[ManjurAmt]) as 'मंजूर अंदाजित किंमत',sum(b.[MarchEndingExpn])as 'मार्च अखेर खर्च 2026',sum(b.[UrvaritAmt]) as 'उर्वरित किंमत',sum(b.[Chalukharch])as 'चालु खर्च',sum(b.[Magilkharch])as 'मागील खर्च',sum(b.[VarshbharatilKharch]) as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',sum(b.[AikunKharch]) as 'एकुण कामावरील खर्च',sum(b.[Takunone]) as 'प्रथम तिमाही तरतूद',sum(b.[Takuntwo]) as 'द्वितीय तिमाही तरतूद',sum(b.[Takunthree]) as 'तृतीय तिमाही तरतूद',sum(b.[Takunfour]) as 'चतुर्थ तिमाही तरतूद',sum(b.[Tartud])as 'अर्थसंकल्पीय तरतूद',sum(b.[AkunAnudan]) as 'वितरित तरतूद',sum(b.[Magni]) as 'मागणी',sum(b.[Vidyutprama]) as 'प्रमा',sum(b.[Vidyutvitarit]) as 'वितरित',sum(b.[Itarkhrch]) as 'इतर खर्च',isNULL ('','') as 'दवगुनी ज्ञापने',isNULL ('','') as 'पाहणी क्रमांक',isNULL ('','') as 'पाहणीमुद्ये',isNULL ('','') as 'देयकाची सद्यस्थिती',isNULL ('','') as 'शेरा / कामाची सद्यस्थिती',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0))) as 'C',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0))) as 'P',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर'  THEN 1 ELSE 0 END as decimal(10,0))) as 'TS',sum (b.[Apr]) as [Apr],sum (b.[May]) as [May],sum (b.[Jun]) as [Jun],sum (b.[Jul]) as [Jul],sum (b.[Aug]) as [Aug],sum (b.[Sep]) as [Sep],sum (b.[Oct]) as [Oct],sum (b.[Nov]) as [Nov],sum (b.[Dec]) as [Dec],sum (b.[Jan]) as [Jan],sum (b.[Feb]) as [Feb],sum (b.[Mar]) as [Mar] from BudgetMaster2515 as a join BuildingProvision as b on a.WorkId=b.WorkId   where  b.[Arthsankalpiyyear]=N'2025-2026'  group by a.[LekhaShirshName] order by a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]
+ `;
+    const result = await pool.request().query(query);
+
+    res.json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error in MASTERHEADWISEREPOST:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching MASTERHEADWISEREPOST",
+      error: error.message,
+    });
+  }
+};
+
 const MASTERHEADWISEREPOSTAnnuity = async (req, res) => {
   try {
     const { office } = req.body;
@@ -783,6 +818,295 @@ SELECT ROW_NUMBER() OVER(PARTITION BY a.[Arthsankalpiyyear],a.[Upvibhag] ORDER B
     });
   }
 };
+const MASTERHEADWISEREPOSTDepositeFund = async (req, res) => {
+  try {
+    const { office } = req.body;
+
+    if (!office) {
+      return res.status(400).json({
+        success: false,
+        message: "office parameters are required",
+      });
+    }
+
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `SELECT ROW_NUMBER() OVER(PARTITION BY a.[LekhaShirshName] ORDER BY a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]) as 'SrNo', a.[WorkId] as 'वर्क आयडी',a.[U_WIN] as 'U_WIN',a.[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',a.[KamacheName] as 'कामाचे नाव',a.[LekhaShirshName] as 'लेखाशीर्ष नाव',a.[SubType] as 'विभाग',a.[Upvibhag] as 'उपविभाग',a.[Taluka] as 'तालुका',a.[ArthsankalpiyBab] as 'अर्थसंकल्पीय बाब',convert(nvarchar(max),a.[ShakhaAbhyantaName])+' '+convert(nvarchar(max),a.[ShakhaAbhiyantMobile]) as 'शाखा अभियंता नाव',convert(nvarchar(max),a.[UpabhyantaName])+' '+convert(nvarchar(max),a.[UpAbhiyantaMobile]) as 'उपअभियंता नाव',a.[AmdaracheName] as 'आमदारांचे नाव',a.[KhasdaracheName] as 'खासदारांचे नाव',convert(nvarchar(max),a.[ThekedaarName])+' '+convert(nvarchar(max),a.[ThekedarMobile]) as 'कंत्राटदार नाव',convert(nvarchar(max),a.[PrashaskiyAmt])as 'प्रशासकीय मान्यता रक्कम',convert(nvarchar(max),a.[PrashaskiyKramank])+' '+convert(nvarchar(max),a.[PrashaskiyAmt])+' '+convert(nvarchar(max),a.[PrashaskiyDate])as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',convert(nvarchar(max),a.[TrantrikAmt])as 'तांत्रिक मान्यता रक्कम',convert(nvarchar(max),a.[TrantrikKrmank])+' '+convert(nvarchar(max),a.[TrantrikAmt])+' '+convert(nvarchar(max),a.[TrantrikDate])as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक',a.[Kamachevav] as 'कामाचा वाव',convert(nvarchar(max),a.[NividaKrmank])+' '+convert(nvarchar(max),a.[NividaDate])as 'कार्यारंभ आदेश दिनांक',a.[NividaAmt] as 'निविदा रक्कम % कमी / जास्त',a.[kamachiMudat] as 'बांधकाम कालावधी',a.[KamPurnDate] as 'काम पूर्ण तारीख',CAST(CASE WHEN b.[MudatVadhiDate] = ' ' or b.[MudatVadhiDate] = '0' THEN N'होय' ELSE N'नाही' END as nvarchar(max)) as 'मुदतवाढ बाबत',b.[ManjurAmt] as 'मंजूर अंदाजित किंमत',b.[MarchEndingExpn] as 'मार्च अखेर खर्च 2026',b.[UrvaritAmt] as 'उर्वरित किंमत',b.[Chalukharch] as 'चालु खर्च',b.[Magilkharch] as 'मागील खर्च',b.[VarshbharatilKharch] as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',b.[AikunKharch] as 'एकुण कामावरील खर्च',b.[Takunone] as 'प्रथम तिमाही तरतूद',b.[Takuntwo] as 'द्वितीय तिमाही तरतूद',b.[Takunthree] as 'तृतीय तिमाही तरतूद',b.[Takunfour] as 'चतुर्थ तिमाही तरतूद',b.[Tartud]as 'अर्थसंकल्पीय तरतूद',b.[AkunAnudan] as 'वितरित तरतूद',b.[Magni] as 'मागणी',b.[Vidyutprama] as 'विद्युतीकरणावरील प्रमा',b.[Vidyutvitarit] as 'विद्युतीकरणावरील वितरित',b.[Itarkhrch] as 'इतर खर्च',b.[Dviguni] as 'दवगुनी ज्ञापने',a.[Pahanikramank] as 'पाहणी क्रमांक',a.[PahaniMudye] as 'पाहणीमुद्ये',b.[DeyakachiSadyasthiti] as 'देयकाची सद्यस्थिती',convert(nvarchar(max),a.[Sadyasthiti])+' '+convert(nvarchar(max),a.[Shera]) as 'शेरा / कामाची सद्यस्थिती',CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0)) as 'C',CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0)) as 'P',CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर' THEN 1 ELSE 0 END as decimal(10,0)) as'TS',b.[Apr] as 'Apr',b.[May] as 'May',b.[Jun] as 'Jun',b.[Jul] as 'Jul',b.[Aug] as 'Aug',b.[Sep] as 'Sep',b.[Oct] as 'Oct',b.[Nov] as 'Nov',b.[Dec] as 'Dec',b.[Jan] as 'Jan',b.[Feb] as 'Feb',b.[Mar] as 'Mar' from BudgetMasterDepositFund as a join BuildingProvision as b on a.WorkId=b.WorkId  where  b.[Arthsankalpiyyear]=N'2025-2026' union select isNULL ('','')as'SrNo', 'Total' as 'वर्क आयडी',isNULL ('','') as 'U_WIN',isNULL ('Total','') as 'अर्थसंकल्पीय वर्ष',isNULL ('','') as 'कामाचे नाव',isNULL (a.[LekhaShirshName],'') as 'लेखाशीर्ष नाव',isNULL ('','') as 'विभाग',isNULL ('','') as 'उपविभाग',isNULL ('','0') as 'तालुका',isNULL ('','') as 'अर्थसंकल्पीय बाब',isNULL ('','') as 'शाखा अभियंता नाव',isNULL ('','') as 'उपअभियंता नाव',isNULL ('','') as 'आमदारांचे नाव',isNULL ('','') as 'खासदारांचे नाव',isNULL ('','') as 'कंत्राटदार नाव',sum(cast(a.[PrashaskiyAmt] as decimal(10,2))) as 'प्रशासकीय मान्यता रक्कम',isNULL ('','') as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',sum(cast(a.[TrantrikAmt] as decimal(10,2))) as 'तांत्रिक मान्यता रक्कम',isNULL ('','') as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक ',isNULL ('','') as 'कामाचा वाव',isNULL ('','') as 'कार्यारंभ आदेश दिनांक',isNULL ('','') as 'निविदा रक्कम % कमी / जास्त',isNULL ('','') as 'बांधकाम कालावधी',isNULL ('','') as 'काम पूर्ण तारीख',isNULL ('','') as 'मुदतवाढ बाबत',sum(b.[ManjurAmt]) as 'मंजूर अंदाजित किंमत',sum(b.[MarchEndingExpn])as 'मार्च अखेर खर्च 2026',sum(b.[UrvaritAmt]) as 'उर्वरित किंमत',sum(b.[Chalukharch])as 'चालु खर्च',sum(b.[Magilkharch])as 'मागील खर्च',sum(b.[VarshbharatilKharch]) as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',sum(b.[AikunKharch]) as 'एकुण कामावरील खर्च',sum(b.[Takunone]) as 'प्रथम तिमाही तरतूद',sum(b.[Takuntwo]) as 'द्वितीय तिमाही तरतूद',sum(b.[Takunthree]) as 'तृतीय तिमाही तरतूद',sum(b.[Takunfour]) as 'चतुर्थ तिमाही तरतूद',sum(b.[Tartud])as 'अर्थसंकल्पीय तरतूद',sum(b.[AkunAnudan]) as 'वितरित तरतूद',sum(b.[Magni]) as 'मागणी',sum(b.[Vidyutprama]) as 'प्रमा',sum(b.[Vidyutvitarit]) as 'वितरित',sum(b.[Itarkhrch]) as 'इतर खर्च',isNULL ('','') as 'दवगुनी ज्ञापने',isNULL ('','') as 'पाहणी क्रमांक',isNULL ('','') as 'पाहणीमुद्ये',isNULL ('','') as 'देयकाची सद्यस्थिती',isNULL ('','') as 'शेरा / कामाची सद्यस्थिती',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0))) as 'C',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0))) as 'P',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर'  THEN 1 ELSE 0 END as decimal(10,0))) as 'TS',sum (b.[Apr]) as [Apr],sum (b.[May]) as [May],sum (b.[Jun]) as [Jun],sum (b.[Jul]) as [Jul],sum (b.[Aug]) as [Aug],sum (b.[Sep]) as [Sep],sum (b.[Oct]) as [Oct],sum (b.[Nov]) as [Nov],sum (b.[Dec]) as [Dec],sum (b.[Jan]) as [Jan],sum (b.[Feb]) as [Feb],sum (b.[Mar]) as [Mar] from BudgetMasterDepositFund as a join BuildingProvision as b on a.WorkId=b.WorkId   where  b.[Arthsankalpiyyear]=N'2025-2026'  group by a.[LekhaShirshName] order by a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]`;
+    const result = await pool.request().query(query);
+
+    res.json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error in MASTERHEADWISEREPOST:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching MASTERHEADWISEREPOST",
+      error: error.message,
+    });
+  }
+};
+const MASTERHEADWISEREPOSTDPDC = async (req, res) => {
+  try {
+    const { office } = req.body;
+
+    if (!office) {
+      return res.status(400).json({
+        success: false,
+        message: "office parameters are required",
+      });
+    }
+
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `SELECT ROW_NUMBER() OVER(PARTITION BY a.[LekhaShirshName] ORDER BY a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]) as 'SrNo', a.[WorkId] as 'वर्क आयडी',a.[U_WIN] as 'U_WIN',a.[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',a.[KamacheName] as 'कामाचे नाव',a.[LekhaShirshName] as 'लेखाशीर्ष नाव',a.[SubType] as 'विभाग',a.[Upvibhag] as 'उपविभाग',a.[Taluka] as 'तालुका',a.[ArthsankalpiyBab] as 'अर्थसंकल्पीय बाब',convert(nvarchar(max),a.[ShakhaAbhyantaName])+' '+convert(nvarchar(max),a.[ShakhaAbhiyantMobile]) as 'शाखा अभियंता नाव',convert(nvarchar(max),a.[UpabhyantaName])+' '+convert(nvarchar(max),a.[UpAbhiyantaMobile]) as 'उपअभियंता नाव',a.[AmdaracheName] as 'आमदारांचे नाव',a.[KhasdaracheName] as 'खासदारांचे नाव',convert(nvarchar(max),a.[ThekedaarName])+' '+convert(nvarchar(max),a.[ThekedarMobile]) as 'कंत्राटदार नाव',convert(nvarchar(max),a.[PrashaskiyAmt])as 'प्रशासकीय मान्यता रक्कम',convert(nvarchar(max),a.[PrashaskiyKramank])+' '+convert(nvarchar(max),a.[PrashaskiyAmt])+' '+convert(nvarchar(max),a.[PrashaskiyDate])as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',convert(nvarchar(max),a.[TrantrikAmt])as 'तांत्रिक मान्यता रक्कम',convert(nvarchar(max),a.[TrantrikKrmank])+' '+convert(nvarchar(max),a.[TrantrikAmt])+' '+convert(nvarchar(max),a.[TrantrikDate])as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक',a.[Kamachevav] as 'कामाचा वाव',convert(nvarchar(max),a.[NividaKrmank])+' '+convert(nvarchar(max),a.[NividaDate])as 'कार्यारंभ आदेश दिनांक',a.[NividaAmt] as 'निविदा रक्कम % कमी / जास्त',a.[kamachiMudat] as 'बांधकाम कालावधी',a.[KamPurnDate] as 'काम पूर्ण तारीख',CAST(CASE WHEN b.[MudatVadhiDate] = ' ' or b.[MudatVadhiDate] = '0' THEN N'होय' ELSE N'नाही' END as nvarchar(max)) as 'मुदतवाढ बाबत',b.[ManjurAmt] as 'मंजूर अंदाजित किंमत',b.[MarchEndingExpn] as 'मार्च अखेर खर्च 2026',b.[UrvaritAmt] as 'उर्वरित किंमत',b.[Chalukharch] as 'चालु खर्च',b.[Magilkharch] as 'मागील खर्च',b.[VarshbharatilKharch] as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',b.[AikunKharch] as 'एकुण कामावरील खर्च',b.[Takunone] as 'प्रथम तिमाही तरतूद',b.[Takuntwo] as 'द्वितीय तिमाही तरतूद',b.[Takunthree] as 'तृतीय तिमाही तरतूद',b.[Takunfour] as 'चतुर्थ तिमाही तरतूद',b.[Tartud]as 'अर्थसंकल्पीय तरतूद',b.[AkunAnudan] as 'वितरित तरतूद',b.[Magni] as 'मागणी',b.[Vidyutprama] as 'विद्युतीकरणावरील प्रमा',b.[Vidyutvitarit] as 'विद्युतीकरणावरील वितरित',b.[Itarkhrch] as 'इतर खर्च',b.[Dviguni] as 'दवगुनी ज्ञापने',a.[Pahanikramank] as 'पाहणी क्रमांक',a.[PahaniMudye] as 'पाहणीमुद्ये',b.[DeyakachiSadyasthiti] as 'देयकाची सद्यस्थिती',convert(nvarchar(max),a.[Sadyasthiti])+' '+convert(nvarchar(max),a.[Shera]) as 'शेरा / कामाची सद्यस्थिती',CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0)) as 'C',CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0)) as 'P',CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर' THEN 1 ELSE 0 END as decimal(10,0)) as'TS',b.[Apr] as 'Apr',b.[May] as 'May',b.[Jun] as 'Jun',b.[Jul] as 'Jul',b.[Aug] as 'Aug',b.[Sep] as 'Sep',b.[Oct] as 'Oct',b.[Nov] as 'Nov',b.[Dec] as 'Dec',b.[Jan] as 'Jan',b.[Feb] as 'Feb',b.[Mar] as 'Mar' from BudgetMasterDPDC as a join BuildingProvision as b on a.WorkId=b.WorkId  where  b.[Arthsankalpiyyear]=N'2025-2026' union select isNULL ('','')as'SrNo', 'Total' as 'वर्क आयडी',isNULL ('','') as 'U_WIN',isNULL ('Total','') as 'अर्थसंकल्पीय वर्ष',isNULL ('','') as 'कामाचे नाव',isNULL (a.[LekhaShirshName],'') as 'लेखाशीर्ष नाव',isNULL ('','') as 'विभाग',isNULL ('','') as 'उपविभाग',isNULL ('','0') as 'तालुका',isNULL ('','') as 'अर्थसंकल्पीय बाब',isNULL ('','') as 'शाखा अभियंता नाव',isNULL ('','') as 'उपअभियंता नाव',isNULL ('','') as 'आमदारांचे नाव',isNULL ('','') as 'खासदारांचे नाव',isNULL ('','') as 'कंत्राटदार नाव',sum(cast(a.[PrashaskiyAmt] as decimal(10,2))) as 'प्रशासकीय मान्यता रक्कम',isNULL ('','') as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',sum(cast(a.[TrantrikAmt] as decimal(10,2))) as 'तांत्रिक मान्यता रक्कम',isNULL ('','') as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक ',isNULL ('','') as 'कामाचा वाव',isNULL ('','') as 'कार्यारंभ आदेश दिनांक',isNULL ('','') as 'निविदा रक्कम % कमी / जास्त',isNULL ('','') as 'बांधकाम कालावधी',isNULL ('','') as 'काम पूर्ण तारीख',isNULL ('','') as 'मुदतवाढ बाबत',sum(b.[ManjurAmt]) as 'मंजूर अंदाजित किंमत',sum(b.[MarchEndingExpn])as 'मार्च अखेर खर्च 2026',sum(b.[UrvaritAmt]) as 'उर्वरित किंमत',sum(b.[Chalukharch])as 'चालु खर्च',sum(b.[Magilkharch])as 'मागील खर्च',sum(b.[VarshbharatilKharch]) as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',sum(b.[AikunKharch]) as 'एकुण कामावरील खर्च',sum(b.[Takunone]) as 'प्रथम तिमाही तरतूद',sum(b.[Takuntwo]) as 'द्वितीय तिमाही तरतूद',sum(b.[Takunthree]) as 'तृतीय तिमाही तरतूद',sum(b.[Takunfour]) as 'चतुर्थ तिमाही तरतूद',sum(b.[Tartud])as 'अर्थसंकल्पीय तरतूद',sum(b.[AkunAnudan]) as 'वितरित तरतूद',sum(b.[Magni]) as 'मागणी',sum(b.[Vidyutprama]) as 'प्रमा',sum(b.[Vidyutvitarit]) as 'वितरित',sum(b.[Itarkhrch]) as 'इतर खर्च',isNULL ('','') as 'दवगुनी ज्ञापने',isNULL ('','') as 'पाहणी क्रमांक',isNULL ('','') as 'पाहणीमुद्ये',isNULL ('','') as 'देयकाची सद्यस्थिती',isNULL ('','') as 'शेरा / कामाची सद्यस्थिती',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0))) as 'C',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0))) as 'P',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर'  THEN 1 ELSE 0 END as decimal(10,0))) as 'TS',sum (b.[Apr]) as [Apr],sum (b.[May]) as [May],sum (b.[Jun]) as [Jun],sum (b.[Jul]) as [Jul],sum (b.[Aug]) as [Aug],sum (b.[Sep]) as [Sep],sum (b.[Oct]) as [Oct],sum (b.[Nov]) as [Nov],sum (b.[Dec]) as [Dec],sum (b.[Jan]) as [Jan],sum (b.[Feb]) as [Feb],sum (b.[Mar]) as [Mar] from BudgetMasterDPDC as a join BuildingProvision as b on a.WorkId=b.WorkId   where  b.[Arthsankalpiyyear]=N'2025-2026'  group by a.[LekhaShirshName] order by a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]`;
+    const result = await pool.request().query(query);
+
+    res.json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error in MASTERHEADWISEREPOST:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching MASTERHEADWISEREPOST",
+      error: error.message,
+    });
+  }
+};
+const MASTERHEADWISEREPOSTGatA = async (req, res) => {
+  try {
+    const { office } = req.body;
+
+    if (!office) {
+      return res.status(400).json({
+        success: false,
+        message: "office parameters are required",
+      });
+    }
+
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `SELECT ROW_NUMBER() OVER(PARTITION BY a.[LekhaShirshName] ORDER BY a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]) as 'SrNo', a.[WorkId] as 'वर्क आयडी',a.[U_WIN] as 'U_WIN',a.[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',a.[KamacheName] as 'कामाचे नाव',a.[LekhaShirshName] as 'लेखाशीर्ष नाव',a.[SubType] as 'विभाग',a.[Upvibhag] as 'उपविभाग',a.[Taluka] as 'तालुका',a.[ArthsankalpiyBab] as 'अर्थसंकल्पीय बाब',convert(nvarchar(max),a.[ShakhaAbhyantaName])+' '+convert(nvarchar(max),a.[ShakhaAbhiyantMobile]) as 'शाखा अभियंता नाव',convert(nvarchar(max),a.[UpabhyantaName])+' '+convert(nvarchar(max),a.[UpAbhiyantaMobile]) as 'उपअभियंता नाव',a.[AmdaracheName] as 'आमदारांचे नाव',a.[KhasdaracheName] as 'खासदारांचे नाव',convert(nvarchar(max),a.[ThekedaarName])+' '+convert(nvarchar(max),a.[ThekedarMobile]) as 'कंत्राटदार नाव',convert(nvarchar(max),a.[PrashaskiyAmt])as 'प्रशासकीय मान्यता रक्कम',convert(nvarchar(max),a.[PrashaskiyKramank])+' '+convert(nvarchar(max),a.[PrashaskiyAmt])+' '+convert(nvarchar(max),a.[PrashaskiyDate])as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',convert(nvarchar(max),a.[TrantrikAmt])as 'तांत्रिक मान्यता रक्कम',convert(nvarchar(max),a.[TrantrikKrmank])+' '+convert(nvarchar(max),a.[TrantrikAmt])+' '+convert(nvarchar(max),a.[TrantrikDate])as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक',a.[Kamachevav] as 'कामाचा वाव',convert(nvarchar(max),a.[NividaKrmank])+' '+convert(nvarchar(max),a.[NividaDate])as 'कार्यारंभ आदेश दिनांक',a.[NividaAmt] as 'निविदा रक्कम % कमी / जास्त',a.[kamachiMudat] as 'बांधकाम कालावधी',a.[KamPurnDate] as 'काम पूर्ण तारीख',CAST(CASE WHEN b.[MudatVadhiDate] = ' ' or b.[MudatVadhiDate] = '0' THEN N'होय' ELSE N'नाही' END as nvarchar(max)) as 'मुदतवाढ बाबत',b.[ManjurAmt] as 'मंजूर अंदाजित किंमत',b.[MarchEndingExpn] as 'मार्च अखेर खर्च 2026',b.[UrvaritAmt] as 'उर्वरित किंमत',b.[Chalukharch] as 'चालु खर्च',b.[Magilkharch] as 'मागील खर्च',b.[VarshbharatilKharch] as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',b.[AikunKharch] as 'एकुण कामावरील खर्च',b.[Takunone] as 'प्रथम तिमाही तरतूद',b.[Takuntwo] as 'द्वितीय तिमाही तरतूद',b.[Takunthree] as 'तृतीय तिमाही तरतूद',b.[Takunfour] as 'चतुर्थ तिमाही तरतूद',b.[Tartud]as 'अर्थसंकल्पीय तरतूद',b.[AkunAnudan] as 'वितरित तरतूद',b.[Magni] as 'मागणी',b.[Vidyutprama] as 'विद्युतीकरणावरील प्रमा',b.[Vidyutvitarit] as 'विद्युतीकरणावरील वितरित',b.[Itarkhrch] as 'इतर खर्च',b.[Dviguni] as 'दवगुनी ज्ञापने',a.[Pahanikramank] as 'पाहणी क्रमांक',a.[PahaniMudye] as 'पाहणीमुद्ये',b.[DeyakachiSadyasthiti] as 'देयकाची सद्यस्थिती',convert(nvarchar(max),a.[Sadyasthiti])+' '+convert(nvarchar(max),a.[Shera]) as 'शेरा / कामाची सद्यस्थिती',CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0)) as 'C',CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0)) as 'P',CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर' THEN 1 ELSE 0 END as decimal(10,0)) as'TS',b.[Apr] as 'Apr',b.[May] as 'May',b.[Jun] as 'Jun',b.[Jul] as 'Jul',b.[Aug] as 'Aug',b.[Sep] as 'Sep',b.[Oct] as 'Oct',b.[Nov] as 'Nov',b.[Dec] as 'Dec',b.[Jan] as 'Jan',b.[Feb] as 'Feb',b.[Mar] as 'Mar' from BudgetMasterGAT_A as a join BuildingProvision as b on a.WorkId=b.WorkId  where  b.[Arthsankalpiyyear]=N'2025-2026' union select isNULL ('','')as'SrNo', 'Total' as 'वर्क आयडी',isNULL ('','') as 'U_WIN',isNULL ('Total','') as 'अर्थसंकल्पीय वर्ष',isNULL ('','') as 'कामाचे नाव',isNULL (a.[LekhaShirshName],'') as 'लेखाशीर्ष नाव',isNULL ('','') as 'विभाग',isNULL ('','') as 'उपविभाग',isNULL ('','0') as 'तालुका',isNULL ('','') as 'अर्थसंकल्पीय बाब',isNULL ('','') as 'शाखा अभियंता नाव',isNULL ('','') as 'उपअभियंता नाव',isNULL ('','') as 'आमदारांचे नाव',isNULL ('','') as 'खासदारांचे नाव',isNULL ('','') as 'कंत्राटदार नाव',sum(cast(a.[PrashaskiyAmt] as decimal(10,2))) as 'प्रशासकीय मान्यता रक्कम',isNULL ('','') as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',sum(cast(a.[TrantrikAmt] as decimal(10,2))) as 'तांत्रिक मान्यता रक्कम',isNULL ('','') as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक ',isNULL ('','') as 'कामाचा वाव',isNULL ('','') as 'कार्यारंभ आदेश दिनांक',isNULL ('','') as 'निविदा रक्कम % कमी / जास्त',isNULL ('','') as 'बांधकाम कालावधी',isNULL ('','') as 'काम पूर्ण तारीख',isNULL ('','') as 'मुदतवाढ बाबत',sum(b.[ManjurAmt]) as 'मंजूर अंदाजित किंमत',sum(b.[MarchEndingExpn])as 'मार्च अखेर खर्च 2026',sum(b.[UrvaritAmt]) as 'उर्वरित किंमत',sum(b.[Chalukharch])as 'चालु खर्च',sum(b.[Magilkharch])as 'मागील खर्च',sum(b.[VarshbharatilKharch]) as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',sum(b.[AikunKharch]) as 'एकुण कामावरील खर्च',sum(b.[Takunone]) as 'प्रथम तिमाही तरतूद',sum(b.[Takuntwo]) as 'द्वितीय तिमाही तरतूद',sum(b.[Takunthree]) as 'तृतीय तिमाही तरतूद',sum(b.[Takunfour]) as 'चतुर्थ तिमाही तरतूद',sum(b.[Tartud])as 'अर्थसंकल्पीय तरतूद',sum(b.[AkunAnudan]) as 'वितरित तरतूद',sum(b.[Magni]) as 'मागणी',sum(b.[Vidyutprama]) as 'प्रमा',sum(b.[Vidyutvitarit]) as 'वितरित',sum(b.[Itarkhrch]) as 'इतर खर्च',isNULL ('','') as 'दवगुनी ज्ञापने',isNULL ('','') as 'पाहणी क्रमांक',isNULL ('','') as 'पाहणीमुद्ये',isNULL ('','') as 'देयकाची सद्यस्थिती',isNULL ('','') as 'शेरा / कामाची सद्यस्थिती',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0))) as 'C',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0))) as 'P',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर'  THEN 1 ELSE 0 END as decimal(10,0))) as 'TS',sum (b.[Apr]) as [Apr],sum (b.[May]) as [May],sum (b.[Jun]) as [Jun],sum (b.[Jul]) as [Jul],sum (b.[Aug]) as [Aug],sum (b.[Sep]) as [Sep],sum (b.[Oct]) as [Oct],sum (b.[Nov]) as [Nov],sum (b.[Dec]) as [Dec],sum (b.[Jan]) as [Jan],sum (b.[Feb]) as [Feb],sum (b.[Mar]) as [Mar] from BudgetMasterGAT_A as a join BuildingProvision as b on a.WorkId=b.WorkId   where  b.[Arthsankalpiyyear]=N'2025-2026'  group by a.[LekhaShirshName] order by a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag] `;
+    const result = await pool.request().query(query);
+
+    res.json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error in MASTERHEADWISEREPOST:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching MASTERHEADWISEREPOST",
+      error: error.message,
+    });
+  }
+};
+const MASTERHEADWISEREPOSTGatD = async (req, res) => {
+  try {
+    const { office } = req.body;
+
+    if (!office) {
+      return res.status(400).json({
+        success: false,
+        message: "office parameters are required",
+      });
+    }
+
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `SELECT ROW_NUMBER() OVER(PARTITION BY a.[LekhaShirshName] ORDER BY a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]) as 'SrNo', a.[WorkId] as 'वर्क आयडी',a.[U_WIN] as 'U_WIN',a.[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',a.[KamacheName] as 'कामाचे नाव',a.[LekhaShirshName] as 'लेखाशीर्ष नाव',a.[SubType] as 'विभाग',a.[Upvibhag] as 'उपविभाग',a.[Taluka] as 'तालुका',a.[ArthsankalpiyBab] as 'अर्थसंकल्पीय बाब',convert(nvarchar(max),a.[ShakhaAbhyantaName])+' '+convert(nvarchar(max),a.[ShakhaAbhiyantMobile]) as 'शाखा अभियंता नाव',convert(nvarchar(max),a.[UpabhyantaName])+' '+convert(nvarchar(max),a.[UpAbhiyantaMobile]) as 'उपअभियंता नाव',a.[AmdaracheName] as 'आमदारांचे नाव',a.[KhasdaracheName] as 'खासदारांचे नाव',convert(nvarchar(max),a.[ThekedaarName])+' '+convert(nvarchar(max),a.[ThekedarMobile]) as 'कंत्राटदार नाव',convert(nvarchar(max),a.[PrashaskiyAmt])as 'प्रशासकीय मान्यता रक्कम',convert(nvarchar(max),a.[PrashaskiyKramank])+' '+convert(nvarchar(max),a.[PrashaskiyAmt])+' '+convert(nvarchar(max),a.[PrashaskiyDate])as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',convert(nvarchar(max),a.[TrantrikAmt])as 'तांत्रिक मान्यता रक्कम',convert(nvarchar(max),a.[TrantrikKrmank])+' '+convert(nvarchar(max),a.[TrantrikAmt])+' '+convert(nvarchar(max),a.[TrantrikDate])as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक',a.[Kamachevav] as 'कामाचा वाव',convert(nvarchar(max),a.[NividaKrmank])+' '+convert(nvarchar(max),a.[NividaDate])as 'कार्यारंभ आदेश दिनांक',a.[NividaAmt] as 'निविदा रक्कम % कमी / जास्त',a.[kamachiMudat] as 'बांधकाम कालावधी',a.[KamPurnDate] as 'काम पूर्ण तारीख',CAST(CASE WHEN b.[MudatVadhiDate] = ' ' or b.[MudatVadhiDate] = '0' THEN N'होय' ELSE N'नाही' END as nvarchar(max)) as 'मुदतवाढ बाबत',b.[ManjurAmt] as 'मंजूर अंदाजित किंमत',b.[MarchEndingExpn] as 'मार्च अखेर खर्च 2026',b.[UrvaritAmt] as 'उर्वरित किंमत',b.[Chalukharch] as 'चालु खर्च',b.[Magilkharch] as 'मागील खर्च',b.[VarshbharatilKharch] as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',b.[AikunKharch] as 'एकुण कामावरील खर्च',b.[Takunone] as 'प्रथम तिमाही तरतूद',b.[Takuntwo] as 'द्वितीय तिमाही तरतूद',b.[Takunthree] as 'तृतीय तिमाही तरतूद',b.[Takunfour] as 'चतुर्थ तिमाही तरतूद',b.[Tartud]as 'अर्थसंकल्पीय तरतूद',b.[AkunAnudan] as 'वितरित तरतूद',b.[Magni] as 'मागणी',b.[Vidyutprama] as 'विद्युतीकरणावरील प्रमा',b.[Vidyutvitarit] as 'विद्युतीकरणावरील वितरित',b.[Itarkhrch] as 'इतर खर्च',b.[Dviguni] as 'दवगुनी ज्ञापने',a.[Pahanikramank] as 'पाहणी क्रमांक',a.[PahaniMudye] as 'पाहणीमुद्ये',b.[DeyakachiSadyasthiti] as 'देयकाची सद्यस्थिती',convert(nvarchar(max),a.[Sadyasthiti])+' '+convert(nvarchar(max),a.[Shera]) as 'शेरा / कामाची सद्यस्थिती',CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0)) as 'C',CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0)) as 'P',CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर' THEN 1 ELSE 0 END as decimal(10,0)) as'TS',b.[Apr] as 'Apr',b.[May] as 'May',b.[Jun] as 'Jun',b.[Jul] as 'Jul',b.[Aug] as 'Aug',b.[Sep] as 'Sep',b.[Oct] as 'Oct',b.[Nov] as 'Nov',b.[Dec] as 'Dec',b.[Jan] as 'Jan',b.[Feb] as 'Feb',b.[Mar] as 'Mar' from BudgetMasterGAT_D as a join BuildingProvision as b on a.WorkId=b.WorkId  where  b.[Arthsankalpiyyear]=N'2025-2026' union select isNULL ('','')as'SrNo', 'Total' as 'वर्क आयडी',isNULL ('','') as 'U_WIN',isNULL ('Total','') as 'अर्थसंकल्पीय वर्ष',isNULL ('','') as 'कामाचे नाव',isNULL (a.[LekhaShirshName],'') as 'लेखाशीर्ष नाव',isNULL ('','') as 'विभाग',isNULL ('','') as 'उपविभाग',isNULL ('','0') as 'तालुका',isNULL ('','') as 'अर्थसंकल्पीय बाब',isNULL ('','') as 'शाखा अभियंता नाव',isNULL ('','') as 'उपअभियंता नाव',isNULL ('','') as 'आमदारांचे नाव',isNULL ('','') as 'खासदारांचे नाव',isNULL ('','') as 'कंत्राटदार नाव',sum(cast(a.[PrashaskiyAmt] as decimal(10,2))) as 'प्रशासकीय मान्यता रक्कम',isNULL ('','') as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',sum(cast(a.[TrantrikAmt] as decimal(10,2))) as 'तांत्रिक मान्यता रक्कम',isNULL ('','') as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक ',isNULL ('','') as 'कामाचा वाव',isNULL ('','') as 'कार्यारंभ आदेश दिनांक',isNULL ('','') as 'निविदा रक्कम % कमी / जास्त',isNULL ('','') as 'बांधकाम कालावधी',isNULL ('','') as 'काम पूर्ण तारीख',isNULL ('','') as 'मुदतवाढ बाबत',sum(b.[ManjurAmt]) as 'मंजूर अंदाजित किंमत',sum(b.[MarchEndingExpn])as 'मार्च अखेर खर्च 2026',sum(b.[UrvaritAmt]) as 'उर्वरित किंमत',sum(b.[Chalukharch])as 'चालु खर्च',sum(b.[Magilkharch])as 'मागील खर्च',sum(b.[VarshbharatilKharch]) as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',sum(b.[AikunKharch]) as 'एकुण कामावरील खर्च',sum(b.[Takunone]) as 'प्रथम तिमाही तरतूद',sum(b.[Takuntwo]) as 'द्वितीय तिमाही तरतूद',sum(b.[Takunthree]) as 'तृतीय तिमाही तरतूद',sum(b.[Takunfour]) as 'चतुर्थ तिमाही तरतूद',sum(b.[Tartud])as 'अर्थसंकल्पीय तरतूद',sum(b.[AkunAnudan]) as 'वितरित तरतूद',sum(b.[Magni]) as 'मागणी',sum(b.[Vidyutprama]) as 'प्रमा',sum(b.[Vidyutvitarit]) as 'वितरित',sum(b.[Itarkhrch]) as 'इतर खर्च',isNULL ('','') as 'दवगुनी ज्ञापने',isNULL ('','') as 'पाहणी क्रमांक',isNULL ('','') as 'पाहणीमुद्ये',isNULL ('','') as 'देयकाची सद्यस्थिती',isNULL ('','') as 'शेरा / कामाची सद्यस्थिती',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0))) as 'C',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0))) as 'P',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर'  THEN 1 ELSE 0 END as decimal(10,0))) as 'TS',sum (b.[Apr]) as [Apr],sum (b.[May]) as [May],sum (b.[Jun]) as [Jun],sum (b.[Jul]) as [Jul],sum (b.[Aug]) as [Aug],sum (b.[Sep]) as [Sep],sum (b.[Oct]) as [Oct],sum (b.[Nov]) as [Nov],sum (b.[Dec]) as [Dec],sum (b.[Jan]) as [Jan],sum (b.[Feb]) as [Feb],sum (b.[Mar]) as [Mar] from BudgetMasterGAT_D as a join BuildingProvision as b on a.WorkId=b.WorkId   where  b.[Arthsankalpiyyear]=N'2025-2026'  group by a.[LekhaShirshName] order by a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]`;
+    const result = await pool.request().query(query);
+
+    res.json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error in MASTERHEADWISEREPOST:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching MASTERHEADWISEREPOST",
+      error: error.message,
+    });
+  }
+};
+const MASTERHEADWISEREPOSTGatFBC = async (req, res) => {
+  try {
+    const { office } = req.body;
+
+    if (!office) {
+      return res.status(400).json({
+        success: false,
+        message: "office parameters are required",
+      });
+    }
+
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `SELECT ROW_NUMBER() OVER(PARTITION BY a.[LekhaShirshName] ORDER BY a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]) as 'SrNo', a.[WorkId] as 'वर्क आयडी',a.[U_WIN] as 'U_WIN',a.[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',a.[KamacheName] as 'कामाचे नाव',a.[LekhaShirshName] as 'लेखाशीर्ष नाव',a.[SubType] as 'विभाग',a.[Upvibhag] as 'उपविभाग',a.[Taluka] as 'तालुका',a.[ArthsankalpiyBab] as 'अर्थसंकल्पीय बाब',convert(nvarchar(max),a.[ShakhaAbhyantaName])+' '+convert(nvarchar(max),a.[ShakhaAbhiyantMobile]) as 'शाखा अभियंता नाव',convert(nvarchar(max),a.[UpabhyantaName])+' '+convert(nvarchar(max),a.[UpAbhiyantaMobile]) as 'उपअभियंता नाव',a.[AmdaracheName] as 'आमदारांचे नाव',a.[KhasdaracheName] as 'खासदारांचे नाव',convert(nvarchar(max),a.[ThekedaarName])+' '+convert(nvarchar(max),a.[ThekedarMobile]) as 'कंत्राटदार नाव',convert(nvarchar(max),a.[PrashaskiyAmt])as 'प्रशासकीय मान्यता रक्कम',convert(nvarchar(max),a.[PrashaskiyKramank])+' '+convert(nvarchar(max),a.[PrashaskiyAmt])+' '+convert(nvarchar(max),a.[PrashaskiyDate])as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',convert(nvarchar(max),a.[TrantrikAmt])as 'तांत्रिक मान्यता रक्कम',convert(nvarchar(max),a.[TrantrikKrmank])+' '+convert(nvarchar(max),a.[TrantrikAmt])+' '+convert(nvarchar(max),a.[TrantrikDate])as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक',a.[Kamachevav] as 'कामाचा वाव',convert(nvarchar(max),a.[NividaKrmank])+' '+convert(nvarchar(max),a.[NividaDate])as 'कार्यारंभ आदेश दिनांक',a.[NividaAmt] as 'निविदा रक्कम % कमी / जास्त',a.[kamachiMudat] as 'बांधकाम कालावधी',a.[KamPurnDate] as 'काम पूर्ण तारीख',CAST(CASE WHEN b.[MudatVadhiDate] = ' ' or b.[MudatVadhiDate] = '0' THEN N'होय' ELSE N'नाही' END as nvarchar(max)) as 'मुदतवाढ बाबत',b.[ManjurAmt] as 'मंजूर अंदाजित किंमत',b.[MarchEndingExpn] as 'मार्च अखेर खर्च 2026',b.[UrvaritAmt] as 'उर्वरित किंमत',b.[Chalukharch] as 'चालु खर्च',b.[Magilkharch] as 'मागील खर्च',b.[VarshbharatilKharch] as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',b.[AikunKharch] as 'एकुण कामावरील खर्च',b.[Takunone] as 'प्रथम तिमाही तरतूद',b.[Takuntwo] as 'द्वितीय तिमाही तरतूद',b.[Takunthree] as 'तृतीय तिमाही तरतूद',b.[Takunfour] as 'चतुर्थ तिमाही तरतूद',b.[Tartud]as 'अर्थसंकल्पीय तरतूद',b.[AkunAnudan] as 'वितरित तरतूद',b.[Magni] as 'मागणी',b.[Vidyutprama] as 'विद्युतीकरणावरील प्रमा',b.[Vidyutvitarit] as 'विद्युतीकरणावरील वितरित',b.[Itarkhrch] as 'इतर खर्च',b.[Dviguni] as 'दवगुनी ज्ञापने',a.[Pahanikramank] as 'पाहणी क्रमांक',a.[PahaniMudye] as 'पाहणीमुद्ये',b.[DeyakachiSadyasthiti] as 'देयकाची सद्यस्थिती',convert(nvarchar(max),a.[Sadyasthiti])+' '+convert(nvarchar(max),a.[Shera]) as 'शेरा / कामाची सद्यस्थिती',CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0)) as 'C',CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0)) as 'P',CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर' THEN 1 ELSE 0 END as decimal(10,0)) as'TS',b.[Apr] as 'Apr',b.[May] as 'May',b.[Jun] as 'Jun',b.[Jul] as 'Jul',b.[Aug] as 'Aug',b.[Sep] as 'Sep',b.[Oct] as 'Oct',b.[Nov] as 'Nov',b.[Dec] as 'Dec',b.[Jan] as 'Jan',b.[Feb] as 'Feb',b.[Mar] as 'Mar' from BudgetMasterGAT_FBC as a join BuildingProvision as b on a.WorkId=b.WorkId  where  b.[Arthsankalpiyyear]=N'2025-2026' union select isNULL ('','')as'SrNo', 'Total' as 'वर्क आयडी',isNULL ('','') as 'U_WIN',isNULL ('Total','') as 'अर्थसंकल्पीय वर्ष',isNULL ('','') as 'कामाचे नाव',isNULL (a.[LekhaShirshName],'') as 'लेखाशीर्ष नाव',isNULL ('','') as 'विभाग',isNULL ('','') as 'उपविभाग',isNULL ('','0') as 'तालुका',isNULL ('','') as 'अर्थसंकल्पीय बाब',isNULL ('','') as 'शाखा अभियंता नाव',isNULL ('','') as 'उपअभियंता नाव',isNULL ('','') as 'आमदारांचे नाव',isNULL ('','') as 'खासदारांचे नाव',isNULL ('','') as 'कंत्राटदार नाव',sum(cast(a.[PrashaskiyAmt] as decimal(10,2))) as 'प्रशासकीय मान्यता रक्कम',isNULL ('','') as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',sum(cast(a.[TrantrikAmt] as decimal(10,2))) as 'तांत्रिक मान्यता रक्कम',isNULL ('','') as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक ',isNULL ('','') as 'कामाचा वाव',isNULL ('','') as 'कार्यारंभ आदेश दिनांक',isNULL ('','') as 'निविदा रक्कम % कमी / जास्त',isNULL ('','') as 'बांधकाम कालावधी',isNULL ('','') as 'काम पूर्ण तारीख',isNULL ('','') as 'मुदतवाढ बाबत',sum(b.[ManjurAmt]) as 'मंजूर अंदाजित किंमत',sum(b.[MarchEndingExpn])as 'मार्च अखेर खर्च 2026',sum(b.[UrvaritAmt]) as 'उर्वरित किंमत',sum(b.[Chalukharch])as 'चालु खर्च',sum(b.[Magilkharch])as 'मागील खर्च',sum(b.[VarshbharatilKharch]) as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',sum(b.[AikunKharch]) as 'एकुण कामावरील खर्च',sum(b.[Takunone]) as 'प्रथम तिमाही तरतूद',sum(b.[Takuntwo]) as 'द्वितीय तिमाही तरतूद',sum(b.[Takunthree]) as 'तृतीय तिमाही तरतूद',sum(b.[Takunfour]) as 'चतुर्थ तिमाही तरतूद',sum(b.[Tartud])as 'अर्थसंकल्पीय तरतूद',sum(b.[AkunAnudan]) as 'वितरित तरतूद',sum(b.[Magni]) as 'मागणी',sum(b.[Vidyutprama]) as 'प्रमा',sum(b.[Vidyutvitarit]) as 'वितरित',sum(b.[Itarkhrch]) as 'इतर खर्च',isNULL ('','') as 'दवगुनी ज्ञापने',isNULL ('','') as 'पाहणी क्रमांक',isNULL ('','') as 'पाहणीमुद्ये',isNULL ('','') as 'देयकाची सद्यस्थिती',isNULL ('','') as 'शेरा / कामाची सद्यस्थिती',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0))) as 'C',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0))) as 'P',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर'  THEN 1 ELSE 0 END as decimal(10,0))) as 'TS',sum (b.[Apr]) as [Apr],sum (b.[May]) as [May],sum (b.[Jun]) as [Jun],sum (b.[Jul]) as [Jul],sum (b.[Aug]) as [Aug],sum (b.[Sep]) as [Sep],sum (b.[Oct]) as [Oct],sum (b.[Nov]) as [Nov],sum (b.[Dec]) as [Dec],sum (b.[Jan]) as [Jan],sum (b.[Feb]) as [Feb],sum (b.[Mar]) as [Mar] from BudgetMasterGAT_FBC as a join BuildingProvision as b on a.WorkId=b.WorkId   where  b.[Arthsankalpiyyear]=N'2025-2026'  group by a.[LekhaShirshName] order by a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]`;
+    const result = await pool.request().query(query);
+
+    res.json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error in MASTERHEADWISEREPOST:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching MASTERHEADWISEREPOST",
+      error: error.message,
+    });
+  }
+};
+const MASTERHEADWISEREPOSTMLA = async (req, res) => {
+  try {
+    const { office } = req.body;
+
+    if (!office) {
+      return res.status(400).json({
+        success: false,
+        message: "office parameters are required",
+      });
+    }
+
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `SELECT ROW_NUMBER() OVER(PARTITION BY a.[LekhaShirshName] ORDER BY a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]) as 'SrNo', a.[WorkId] as 'वर्क आयडी',a.[U_WIN] as 'U_WIN',a.[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',a.[KamacheName] as 'कामाचे नाव',a.[LekhaShirshName] as 'लेखाशीर्ष नाव',a.[SubType] as 'विभाग',a.[Upvibhag] as 'उपविभाग',a.[Taluka] as 'तालुका',a.[ArthsankalpiyBab] as 'अर्थसंकल्पीय बाब',convert(nvarchar(max),a.[ShakhaAbhyantaName])+' '+convert(nvarchar(max),a.[ShakhaAbhiyantMobile]) as 'शाखा अभियंता नाव',convert(nvarchar(max),a.[UpabhyantaName])+' '+convert(nvarchar(max),a.[UpAbhiyantaMobile]) as 'उपअभियंता नाव',a.[AmdaracheName] as 'आमदारांचे नाव',a.[KhasdaracheName] as 'खासदारांचे नाव',convert(nvarchar(max),a.[ThekedaarName])+' '+convert(nvarchar(max),a.[ThekedarMobile]) as 'कंत्राटदार नाव',convert(nvarchar(max),a.[PrashaskiyAmt])as 'प्रशासकीय मान्यता रक्कम',convert(nvarchar(max),a.[PrashaskiyKramank])+' '+convert(nvarchar(max),a.[PrashaskiyAmt])+' '+convert(nvarchar(max),a.[PrashaskiyDate])as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',convert(nvarchar(max),a.[TrantrikAmt])as 'तांत्रिक मान्यता रक्कम',convert(nvarchar(max),a.[TrantrikKrmank])+' '+convert(nvarchar(max),a.[TrantrikAmt])+' '+convert(nvarchar(max),a.[TrantrikDate])as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक',a.[Kamachevav] as 'कामाचा वाव',convert(nvarchar(max),a.[NividaKrmank])+' '+convert(nvarchar(max),a.[NividaDate])as 'कार्यारंभ आदेश दिनांक',a.[NividaAmt] as 'निविदा रक्कम % कमी / जास्त',a.[kamachiMudat] as 'बांधकाम कालावधी',a.[KamPurnDate] as 'काम पूर्ण तारीख',CAST(CASE WHEN b.[MudatVadhiDate] = ' ' or b.[MudatVadhiDate] = '0' THEN N'होय' ELSE N'नाही' END as nvarchar(max)) as 'मुदतवाढ बाबत',b.[ManjurAmt] as 'मंजूर अंदाजित किंमत',b.[MarchEndingExpn] as 'मार्च अखेर खर्च 2026',b.[UrvaritAmt] as 'उर्वरित किंमत',b.[Chalukharch] as 'चालु खर्च',b.[Magilkharch] as 'मागील खर्च',b.[VarshbharatilKharch] as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',b.[AikunKharch] as 'एकुण कामावरील खर्च',b.[Takunone] as 'प्रथम तिमाही तरतूद',b.[Takuntwo] as 'द्वितीय तिमाही तरतूद',b.[Takunthree] as 'तृतीय तिमाही तरतूद',b.[Takunfour] as 'चतुर्थ तिमाही तरतूद',b.[Tartud]as 'अर्थसंकल्पीय तरतूद',b.[AkunAnudan] as 'वितरित तरतूद',b.[Magni] as 'मागणी',b.[Vidyutprama] as 'विद्युतीकरणावरील प्रमा',b.[Vidyutvitarit] as 'विद्युतीकरणावरील वितरित',b.[Itarkhrch] as 'इतर खर्च',b.[Dviguni] as 'दवगुनी ज्ञापने',a.[Pahanikramank] as 'पाहणी क्रमांक',a.[PahaniMudye] as 'पाहणीमुद्ये',b.[DeyakachiSadyasthiti] as 'देयकाची सद्यस्थिती',convert(nvarchar(max),a.[Sadyasthiti])+' '+convert(nvarchar(max),a.[Shera]) as 'शेरा / कामाची सद्यस्थिती',CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0)) as 'C',CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0)) as 'P',CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर' THEN 1 ELSE 0 END as decimal(10,0)) as'TS',b.[Apr] as 'Apr',b.[May] as 'May',b.[Jun] as 'Jun',b.[Jul] as 'Jul',b.[Aug] as 'Aug',b.[Sep] as 'Sep',b.[Oct] as 'Oct',b.[Nov] as 'Nov',b.[Dec] as 'Dec',b.[Jan] as 'Jan',b.[Feb] as 'Feb',b.[Mar] as 'Mar' from BudgetMasterMLA as a join BuildingProvision as b on a.WorkId=b.WorkId  where  b.[Arthsankalpiyyear]=N'2025-2026' union select isNULL ('','')as'SrNo', 'Total' as 'वर्क आयडी',isNULL ('','') as 'U_WIN',isNULL ('Total','') as 'अर्थसंकल्पीय वर्ष',isNULL ('','') as 'कामाचे नाव',isNULL (a.[LekhaShirshName],'') as 'लेखाशीर्ष नाव',isNULL ('','') as 'विभाग',isNULL ('','') as 'उपविभाग',isNULL ('','0') as 'तालुका',isNULL ('','') as 'अर्थसंकल्पीय बाब',isNULL ('','') as 'शाखा अभियंता नाव',isNULL ('','') as 'उपअभियंता नाव',isNULL ('','') as 'आमदारांचे नाव',isNULL ('','') as 'खासदारांचे नाव',isNULL ('','') as 'कंत्राटदार नाव',sum(cast(a.[PrashaskiyAmt] as decimal(10,2))) as 'प्रशासकीय मान्यता रक्कम',isNULL ('','') as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',sum(cast(a.[TrantrikAmt] as decimal(10,2))) as 'तांत्रिक मान्यता रक्कम',isNULL ('','') as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक ',isNULL ('','') as 'कामाचा वाव',isNULL ('','') as 'कार्यारंभ आदेश दिनांक',isNULL ('','') as 'निविदा रक्कम % कमी / जास्त',isNULL ('','') as 'बांधकाम कालावधी',isNULL ('','') as 'काम पूर्ण तारीख',isNULL ('','') as 'मुदतवाढ बाबत',sum(b.[ManjurAmt]) as 'मंजूर अंदाजित किंमत',sum(b.[MarchEndingExpn])as 'मार्च अखेर खर्च 2026',sum(b.[UrvaritAmt]) as 'उर्वरित किंमत',sum(b.[Chalukharch])as 'चालु खर्च',sum(b.[Magilkharch])as 'मागील खर्च',sum(b.[VarshbharatilKharch]) as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',sum(b.[AikunKharch]) as 'एकुण कामावरील खर्च',sum(b.[Takunone]) as 'प्रथम तिमाही तरतूद',sum(b.[Takuntwo]) as 'द्वितीय तिमाही तरतूद',sum(b.[Takunthree]) as 'तृतीय तिमाही तरतूद',sum(b.[Takunfour]) as 'चतुर्थ तिमाही तरतूद',sum(b.[Tartud])as 'अर्थसंकल्पीय तरतूद',sum(b.[AkunAnudan]) as 'वितरित तरतूद',sum(b.[Magni]) as 'मागणी',sum(b.[Vidyutprama]) as 'प्रमा',sum(b.[Vidyutvitarit]) as 'वितरित',sum(b.[Itarkhrch]) as 'इतर खर्च',isNULL ('','') as 'दवगुनी ज्ञापने',isNULL ('','') as 'पाहणी क्रमांक',isNULL ('','') as 'पाहणीमुद्ये',isNULL ('','') as 'देयकाची सद्यस्थिती',isNULL ('','') as 'शेरा / कामाची सद्यस्थिती',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0))) as 'C',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0))) as 'P',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर'  THEN 1 ELSE 0 END as decimal(10,0))) as 'TS',sum (b.[Apr]) as [Apr],sum (b.[May]) as [May],sum (b.[Jun]) as [Jun],sum (b.[Jul]) as [Jul],sum (b.[Aug]) as [Aug],sum (b.[Sep]) as [Sep],sum (b.[Oct]) as [Oct],sum (b.[Nov]) as [Nov],sum (b.[Dec]) as [Dec],sum (b.[Jan]) as [Jan],sum (b.[Feb]) as [Feb],sum (b.[Mar]) as [Mar] from BudgetMasterMLA as a join BuildingProvision as b on a.WorkId=b.WorkId   where  b.[Arthsankalpiyyear]=N'2025-2026'  group by a.[LekhaShirshName] order by a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]`;
+    const result = await pool.request().query(query);
+
+    res.json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error in MASTERHEADWISEREPOST:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching MASTERHEADWISEREPOST",
+      error: error.message,
+    });
+  }
+};
+const MASTERHEADWISEREPOSTMP = async (req, res) => {
+  try {
+    const { office } = req.body;
+
+    if (!office) {
+      return res.status(400).json({
+        success: false,
+        message: "office parameters are required",
+      });
+    }
+
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `SELECT ROW_NUMBER() OVER(PARTITION BY a.[LekhaShirshName] ORDER BY a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]) as 'SrNo', a.[WorkId] as 'वर्क आयडी',a.[U_WIN] as 'U_WIN',a.[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',a.[KamacheName] as 'कामाचे नाव',a.[LekhaShirshName] as 'लेखाशीर्ष नाव',a.[SubType] as 'विभाग',a.[Upvibhag] as 'उपविभाग',a.[Taluka] as 'तालुका',a.[ArthsankalpiyBab] as 'अर्थसंकल्पीय बाब',convert(nvarchar(max),a.[ShakhaAbhyantaName])+' '+convert(nvarchar(max),a.[ShakhaAbhiyantMobile]) as 'शाखा अभियंता नाव',convert(nvarchar(max),a.[UpabhyantaName])+' '+convert(nvarchar(max),a.[UpAbhiyantaMobile]) as 'उपअभियंता नाव',a.[AmdaracheName] as 'आमदारांचे नाव',a.[KhasdaracheName] as 'खासदारांचे नाव',convert(nvarchar(max),a.[ThekedaarName])+' '+convert(nvarchar(max),a.[ThekedarMobile]) as 'कंत्राटदार नाव',convert(nvarchar(max),a.[PrashaskiyAmt])as 'प्रशासकीय मान्यता रक्कम',convert(nvarchar(max),a.[PrashaskiyKramank])+' '+convert(nvarchar(max),a.[PrashaskiyAmt])+' '+convert(nvarchar(max),a.[PrashaskiyDate])as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',convert(nvarchar(max),a.[TrantrikAmt])as 'तांत्रिक मान्यता रक्कम',convert(nvarchar(max),a.[TrantrikKrmank])+' '+convert(nvarchar(max),a.[TrantrikAmt])+' '+convert(nvarchar(max),a.[TrantrikDate])as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक',a.[Kamachevav] as 'कामाचा वाव',convert(nvarchar(max),a.[NividaKrmank])+' '+convert(nvarchar(max),a.[NividaDate])as 'कार्यारंभ आदेश दिनांक',a.[NividaAmt] as 'निविदा रक्कम % कमी / जास्त',a.[kamachiMudat] as 'बांधकाम कालावधी',a.[KamPurnDate] as 'काम पूर्ण तारीख',CAST(CASE WHEN b.[MudatVadhiDate] = ' ' or b.[MudatVadhiDate] = '0' THEN N'होय' ELSE N'नाही' END as nvarchar(max)) as 'मुदतवाढ बाबत',b.[ManjurAmt] as 'मंजूर अंदाजित किंमत',b.[MarchEndingExpn] as 'मार्च अखेर खर्च 2026',b.[UrvaritAmt] as 'उर्वरित किंमत',b.[Chalukharch] as 'चालु खर्च',b.[Magilkharch] as 'मागील खर्च',b.[VarshbharatilKharch] as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',b.[AikunKharch] as 'एकुण कामावरील खर्च',b.[Takunone] as 'प्रथम तिमाही तरतूद',b.[Takuntwo] as 'द्वितीय तिमाही तरतूद',b.[Takunthree] as 'तृतीय तिमाही तरतूद',b.[Takunfour] as 'चतुर्थ तिमाही तरतूद',b.[Tartud]as 'अर्थसंकल्पीय तरतूद',b.[AkunAnudan] as 'वितरित तरतूद',b.[Magni] as 'मागणी',b.[Vidyutprama] as 'विद्युतीकरणावरील प्रमा',b.[Vidyutvitarit] as 'विद्युतीकरणावरील वितरित',b.[Itarkhrch] as 'इतर खर्च',b.[Dviguni] as 'दवगुनी ज्ञापने',a.[Pahanikramank] as 'पाहणी क्रमांक',a.[PahaniMudye] as 'पाहणीमुद्ये',b.[DeyakachiSadyasthiti] as 'देयकाची सद्यस्थिती',convert(nvarchar(max),a.[Sadyasthiti])+' '+convert(nvarchar(max),a.[Shera]) as 'शेरा / कामाची सद्यस्थिती',CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0)) as 'C',CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0)) as 'P',CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर' THEN 1 ELSE 0 END as decimal(10,0)) as'TS',b.[Apr] as 'Apr',b.[May] as 'May',b.[Jun] as 'Jun',b.[Jul] as 'Jul',b.[Aug] as 'Aug',b.[Sep] as 'Sep',b.[Oct] as 'Oct',b.[Nov] as 'Nov',b.[Dec] as 'Dec',b.[Jan] as 'Jan',b.[Feb] as 'Feb',b.[Mar] as 'Mar' from BudgetMasterMLA as a join BuildingProvision as b on a.WorkId=b.WorkId  where  b.[Arthsankalpiyyear]=N'2025-2026' union select isNULL ('','')as'SrNo', 'Total' as 'वर्क आयडी',isNULL ('','') as 'U_WIN',isNULL ('Total','') as 'अर्थसंकल्पीय वर्ष',isNULL ('','') as 'कामाचे नाव',isNULL (a.[LekhaShirshName],'') as 'लेखाशीर्ष नाव',isNULL ('','') as 'विभाग',isNULL ('','') as 'उपविभाग',isNULL ('','0') as 'तालुका',isNULL ('','') as 'अर्थसंकल्पीय बाब',isNULL ('','') as 'शाखा अभियंता नाव',isNULL ('','') as 'उपअभियंता नाव',isNULL ('','') as 'आमदारांचे नाव',isNULL ('','') as 'खासदारांचे नाव',isNULL ('','') as 'कंत्राटदार नाव',sum(cast(a.[PrashaskiyAmt] as decimal(10,2))) as 'प्रशासकीय मान्यता रक्कम',isNULL ('','') as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',sum(cast(a.[TrantrikAmt] as decimal(10,2))) as 'तांत्रिक मान्यता रक्कम',isNULL ('','') as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक ',isNULL ('','') as 'कामाचा वाव',isNULL ('','') as 'कार्यारंभ आदेश दिनांक',isNULL ('','') as 'निविदा रक्कम % कमी / जास्त',isNULL ('','') as 'बांधकाम कालावधी',isNULL ('','') as 'काम पूर्ण तारीख',isNULL ('','') as 'मुदतवाढ बाबत',sum(b.[ManjurAmt]) as 'मंजूर अंदाजित किंमत',sum(b.[MarchEndingExpn])as 'मार्च अखेर खर्च 2026',sum(b.[UrvaritAmt]) as 'उर्वरित किंमत',sum(b.[Chalukharch])as 'चालु खर्च',sum(b.[Magilkharch])as 'मागील खर्च',sum(b.[VarshbharatilKharch]) as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',sum(b.[AikunKharch]) as 'एकुण कामावरील खर्च',sum(b.[Takunone]) as 'प्रथम तिमाही तरतूद',sum(b.[Takuntwo]) as 'द्वितीय तिमाही तरतूद',sum(b.[Takunthree]) as 'तृतीय तिमाही तरतूद',sum(b.[Takunfour]) as 'चतुर्थ तिमाही तरतूद',sum(b.[Tartud])as 'अर्थसंकल्पीय तरतूद',sum(b.[AkunAnudan]) as 'वितरित तरतूद',sum(b.[Magni]) as 'मागणी',sum(b.[Vidyutprama]) as 'प्रमा',sum(b.[Vidyutvitarit]) as 'वितरित',sum(b.[Itarkhrch]) as 'इतर खर्च',isNULL ('','') as 'दवगुनी ज्ञापने',isNULL ('','') as 'पाहणी क्रमांक',isNULL ('','') as 'पाहणीमुद्ये',isNULL ('','') as 'देयकाची सद्यस्थिती',isNULL ('','') as 'शेरा / कामाची सद्यस्थिती',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0))) as 'C',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0))) as 'P',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर'  THEN 1 ELSE 0 END as decimal(10,0))) as 'TS',sum (b.[Apr]) as [Apr],sum (b.[May]) as [May],sum (b.[Jun]) as [Jun],sum (b.[Jul]) as [Jul],sum (b.[Aug]) as [Aug],sum (b.[Sep]) as [Sep],sum (b.[Oct]) as [Oct],sum (b.[Nov]) as [Nov],sum (b.[Dec]) as [Dec],sum (b.[Jan]) as [Jan],sum (b.[Feb]) as [Feb],sum (b.[Mar]) as [Mar] from BudgetMasterMLA as a join BuildingProvision as b on a.WorkId=b.WorkId   where  b.[Arthsankalpiyyear]=N'2025-2026'  group by a.[LekhaShirshName] order by a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]`;
+    const result = await pool.request().query(query);
+
+    res.json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error in MASTERHEADWISEREPOST:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching MASTERHEADWISEREPOST",
+      error: error.message,
+    });
+  }
+};
+const MASTERHEADWISEREPOSTNRB = async (req, res) => {
+  try {
+    const { office } = req.body;
+
+    if (!office) {
+      return res.status(400).json({
+        success: false,
+        message: "office parameters are required",
+      });
+    }
+
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `SELECT ROW_NUMBER() OVER(PARTITION BY a.[LekhaShirshName] ORDER BY a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]) as 'SrNo', a.[WorkId] as 'वर्क आयडी',a.[U_WIN] as 'U_WIN',a.[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',a.[KamacheName] as 'कामाचे नाव',a.[LekhaShirshName] as 'लेखाशीर्ष नाव',a.[SubType] as 'विभाग',a.[Upvibhag] as 'उपविभाग',a.[Taluka] as 'तालुका',a.[ArthsankalpiyBab] as 'अर्थसंकल्पीय बाब',convert(nvarchar(max),a.[ShakhaAbhyantaName])+' '+convert(nvarchar(max),a.[ShakhaAbhiyantMobile]) as 'शाखा अभियंता नाव',convert(nvarchar(max),a.[UpabhyantaName])+' '+convert(nvarchar(max),a.[UpAbhiyantaMobile]) as 'उपअभियंता नाव',a.[AmdaracheName] as 'आमदारांचे नाव',a.[KhasdaracheName] as 'खासदारांचे नाव',convert(nvarchar(max),a.[ThekedaarName])+' '+convert(nvarchar(max),a.[ThekedarMobile]) as 'कंत्राटदार नाव',convert(nvarchar(max),a.[PrashaskiyAmt])as 'प्रशासकीय मान्यता रक्कम',convert(nvarchar(max),a.[PrashaskiyKramank])+' '+convert(nvarchar(max),a.[PrashaskiyAmt])+' '+convert(nvarchar(max),a.[PrashaskiyDate])as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',convert(nvarchar(max),a.[TrantrikAmt])as 'तांत्रिक मान्यता रक्कम',convert(nvarchar(max),a.[TrantrikKrmank])+' '+convert(nvarchar(max),a.[TrantrikAmt])+' '+convert(nvarchar(max),a.[TrantrikDate])as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक',a.[Kamachevav] as 'कामाचा वाव',convert(nvarchar(max),a.[NividaKrmank])+' '+convert(nvarchar(max),a.[NividaDate])as 'कार्यारंभ आदेश दिनांक',a.[NividaAmt] as 'निविदा रक्कम % कमी / जास्त',a.[kamachiMudat] as 'बांधकाम कालावधी',a.[KamPurnDate] as 'काम पूर्ण तारीख',CAST(CASE WHEN b.[MudatVadhiDate] = ' ' or b.[MudatVadhiDate] = '0' THEN N'होय' ELSE N'नाही' END as nvarchar(max)) as 'मुदतवाढ बाबत',b.[ManjurAmt] as 'मंजूर अंदाजित किंमत',b.[MarchEndingExpn] as 'मार्च अखेर खर्च 2026',b.[UrvaritAmt] as 'उर्वरित किंमत',b.[Chalukharch] as 'चालु खर्च',b.[Magilkharch] as 'मागील खर्च',b.[VarshbharatilKharch] as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',b.[AikunKharch] as 'एकुण कामावरील खर्च',b.[Takunone] as 'प्रथम तिमाही तरतूद',b.[Takuntwo] as 'द्वितीय तिमाही तरतूद',b.[Takunthree] as 'तृतीय तिमाही तरतूद',b.[Takunfour] as 'चतुर्थ तिमाही तरतूद',b.[Tartud]as 'अर्थसंकल्पीय तरतूद',b.[AkunAnudan] as 'वितरित तरतूद',b.[Magni] as 'मागणी',b.[Vidyutprama] as 'विद्युतीकरणावरील प्रमा',b.[Vidyutvitarit] as 'विद्युतीकरणावरील वितरित',b.[Itarkhrch] as 'इतर खर्च',b.[Dviguni] as 'दवगुनी ज्ञापने',a.[Pahanikramank] as 'पाहणी क्रमांक',a.[PahaniMudye] as 'पाहणीमुद्ये',b.[DeyakachiSadyasthiti] as 'देयकाची सद्यस्थिती',convert(nvarchar(max),a.[Sadyasthiti])+' '+convert(nvarchar(max),a.[Shera]) as 'शेरा / कामाची सद्यस्थिती',CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0)) as 'C',CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0)) as 'P',CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर' THEN 1 ELSE 0 END as decimal(10,0)) as'TS',b.[Apr] as 'Apr',b.[May] as 'May',b.[Jun] as 'Jun',b.[Jul] as 'Jul',b.[Aug] as 'Aug',b.[Sep] as 'Sep',b.[Oct] as 'Oct',b.[Nov] as 'Nov',b.[Dec] as 'Dec',b.[Jan] as 'Jan',b.[Feb] as 'Feb',b.[Mar] as 'Mar' from BudgetMasterNonResidentialBuilding as a join BuildingProvision as b on a.WorkId=b.WorkId  where  b.[Arthsankalpiyyear]=N'2025-2026' union select isNULL ('','')as'SrNo', 'Total' as 'वर्क आयडी',isNULL ('','') as 'U_WIN',isNULL ('Total','') as 'अर्थसंकल्पीय वर्ष',isNULL ('','') as 'कामाचे नाव',isNULL (a.[LekhaShirshName],'') as 'लेखाशीर्ष नाव',isNULL ('','') as 'विभाग',isNULL ('','') as 'उपविभाग',isNULL ('','0') as 'तालुका',isNULL ('','') as 'अर्थसंकल्पीय बाब',isNULL ('','') as 'शाखा अभियंता नाव',isNULL ('','') as 'उपअभियंता नाव',isNULL ('','') as 'आमदारांचे नाव',isNULL ('','') as 'खासदारांचे नाव',isNULL ('','') as 'कंत्राटदार नाव',sum(cast(a.[PrashaskiyAmt] as decimal(10,2))) as 'प्रशासकीय मान्यता रक्कम',isNULL ('','') as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',sum(cast(a.[TrantrikAmt] as decimal(10,2))) as 'तांत्रिक मान्यता रक्कम',isNULL ('','') as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक ',isNULL ('','') as 'कामाचा वाव',isNULL ('','') as 'कार्यारंभ आदेश दिनांक',isNULL ('','') as 'निविदा रक्कम % कमी / जास्त',isNULL ('','') as 'बांधकाम कालावधी',isNULL ('','') as 'काम पूर्ण तारीख',isNULL ('','') as 'मुदतवाढ बाबत',sum(b.[ManjurAmt]) as 'मंजूर अंदाजित किंमत',sum(b.[MarchEndingExpn])as 'मार्च अखेर खर्च 2026',sum(b.[UrvaritAmt]) as 'उर्वरित किंमत',sum(b.[Chalukharch])as 'चालु खर्च',sum(b.[Magilkharch])as 'मागील खर्च',sum(b.[VarshbharatilKharch]) as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',sum(b.[AikunKharch]) as 'एकुण कामावरील खर्च',sum(b.[Takunone]) as 'प्रथम तिमाही तरतूद',sum(b.[Takuntwo]) as 'द्वितीय तिमाही तरतूद',sum(b.[Takunthree]) as 'तृतीय तिमाही तरतूद',sum(b.[Takunfour]) as 'चतुर्थ तिमाही तरतूद',sum(b.[Tartud])as 'अर्थसंकल्पीय तरतूद',sum(b.[AkunAnudan]) as 'वितरित तरतूद',sum(b.[Magni]) as 'मागणी',sum(b.[Vidyutprama]) as 'प्रमा',sum(b.[Vidyutvitarit]) as 'वितरित',sum(b.[Itarkhrch]) as 'इतर खर्च',isNULL ('','') as 'दवगुनी ज्ञापने',isNULL ('','') as 'पाहणी क्रमांक',isNULL ('','') as 'पाहणीमुद्ये',isNULL ('','') as 'देयकाची सद्यस्थिती',isNULL ('','') as 'शेरा / कामाची सद्यस्थिती',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0))) as 'C',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0))) as 'P',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर'  THEN 1 ELSE 0 END as decimal(10,0))) as 'TS',sum (b.[Apr]) as [Apr],sum (b.[May]) as [May],sum (b.[Jun]) as [Jun],sum (b.[Jul]) as [Jul],sum (b.[Aug]) as [Aug],sum (b.[Sep]) as [Sep],sum (b.[Oct]) as [Oct],sum (b.[Nov]) as [Nov],sum (b.[Dec]) as [Dec],sum (b.[Jan]) as [Jan],sum (b.[Feb]) as [Feb],sum (b.[Mar]) as [Mar] from BudgetMasterNonResidentialBuilding as a join BuildingProvision as b on a.WorkId=b.WorkId   where  b.[Arthsankalpiyyear]=N'2025-2026'  group by a.[LekhaShirshName] order by a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]`;
+    const result = await pool.request().query(query);
+
+    res.json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error in MASTERHEADWISEREPOST:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching MASTERHEADWISEREPOST",
+      error: error.message,
+    });
+  }
+};
+const MASTERHEADWISEREPOSTRB = async (req, res) => {
+  try {
+    const { office } = req.body;
+
+    if (!office) {
+      return res.status(400).json({
+        success: false,
+        message: "office parameters are required",
+      });
+    }
+
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `SELECT ROW_NUMBER() OVER(PARTITION BY a.[LekhaShirshName] ORDER BY a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]) as 'SrNo', a.[WorkId] as 'वर्क आयडी',a.[U_WIN] as 'U_WIN',a.[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',a.[KamacheName] as 'कामाचे नाव',a.[LekhaShirshName] as 'लेखाशीर्ष नाव',a.[SubType] as 'विभाग',a.[Upvibhag] as 'उपविभाग',a.[Taluka] as 'तालुका',a.[ArthsankalpiyBab] as 'अर्थसंकल्पीय बाब',convert(nvarchar(max),a.[ShakhaAbhyantaName])+' '+convert(nvarchar(max),a.[ShakhaAbhiyantMobile]) as 'शाखा अभियंता नाव',convert(nvarchar(max),a.[UpabhyantaName])+' '+convert(nvarchar(max),a.[UpAbhiyantaMobile]) as 'उपअभियंता नाव',a.[AmdaracheName] as 'आमदारांचे नाव',a.[KhasdaracheName] as 'खासदारांचे नाव',convert(nvarchar(max),a.[ThekedaarName])+' '+convert(nvarchar(max),a.[ThekedarMobile]) as 'कंत्राटदार नाव',convert(nvarchar(max),a.[PrashaskiyAmt])as 'प्रशासकीय मान्यता रक्कम',convert(nvarchar(max),a.[PrashaskiyKramank])+' '+convert(nvarchar(max),a.[PrashaskiyAmt])+' '+convert(nvarchar(max),a.[PrashaskiyDate])as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',convert(nvarchar(max),a.[TrantrikAmt])as 'तांत्रिक मान्यता रक्कम',convert(nvarchar(max),a.[TrantrikKrmank])+' '+convert(nvarchar(max),a.[TrantrikAmt])+' '+convert(nvarchar(max),a.[TrantrikDate])as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक',a.[Kamachevav] as 'कामाचा वाव',convert(nvarchar(max),a.[NividaKrmank])+' '+convert(nvarchar(max),a.[NividaDate])as 'कार्यारंभ आदेश दिनांक',a.[NividaAmt] as 'निविदा रक्कम % कमी / जास्त',a.[kamachiMudat] as 'बांधकाम कालावधी',a.[KamPurnDate] as 'काम पूर्ण तारीख',CAST(CASE WHEN b.[MudatVadhiDate] = ' ' or b.[MudatVadhiDate] = '0' THEN N'होय' ELSE N'नाही' END as nvarchar(max)) as 'मुदतवाढ बाबत',b.[ManjurAmt] as 'मंजूर अंदाजित किंमत',b.[MarchEndingExpn] as 'मार्च अखेर खर्च 2026',b.[UrvaritAmt] as 'उर्वरित किंमत',b.[Chalukharch] as 'चालु खर्च',b.[Magilkharch] as 'मागील खर्च',b.[VarshbharatilKharch] as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',b.[AikunKharch] as 'एकुण कामावरील खर्च',b.[Takunone] as 'प्रथम तिमाही तरतूद',b.[Takuntwo] as 'द्वितीय तिमाही तरतूद',b.[Takunthree] as 'तृतीय तिमाही तरतूद',b.[Takunfour] as 'चतुर्थ तिमाही तरतूद',b.[Tartud]as 'अर्थसंकल्पीय तरतूद',b.[AkunAnudan] as 'वितरित तरतूद',b.[Magni] as 'मागणी',b.[Vidyutprama] as 'विद्युतीकरणावरील प्रमा',b.[Vidyutvitarit] as 'विद्युतीकरणावरील वितरित',b.[Itarkhrch] as 'इतर खर्च',b.[Dviguni] as 'दवगुनी ज्ञापने',a.[Pahanikramank] as 'पाहणी क्रमांक',a.[PahaniMudye] as 'पाहणीमुद्ये',b.[DeyakachiSadyasthiti] as 'देयकाची सद्यस्थिती',convert(nvarchar(max),a.[Sadyasthiti])+' '+convert(nvarchar(max),a.[Shera]) as 'शेरा / कामाची सद्यस्थिती',CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0)) as 'C',CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0)) as 'P',CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर' THEN 1 ELSE 0 END as decimal(10,0)) as'TS',b.[Apr] as 'Apr',b.[May] as 'May',b.[Jun] as 'Jun',b.[Jul] as 'Jul',b.[Aug] as 'Aug',b.[Sep] as 'Sep',b.[Oct] as 'Oct',b.[Nov] as 'Nov',b.[Dec] as 'Dec',b.[Jan] as 'Jan',b.[Feb] as 'Feb',b.[Mar] as 'Mar' from BudgetMasterResidentialBuilding as a join BuildingProvision as b on a.WorkId=b.WorkId  where  b.[Arthsankalpiyyear]=N'2025-2026' union select isNULL ('','')as'SrNo', 'Total' as 'वर्क आयडी',isNULL ('','') as 'U_WIN',isNULL ('Total','') as 'अर्थसंकल्पीय वर्ष',isNULL ('','') as 'कामाचे नाव',isNULL (a.[LekhaShirshName],'') as 'लेखाशीर्ष नाव',isNULL ('','') as 'विभाग',isNULL ('','') as 'उपविभाग',isNULL ('','0') as 'तालुका',isNULL ('','') as 'अर्थसंकल्पीय बाब',isNULL ('','') as 'शाखा अभियंता नाव',isNULL ('','') as 'उपअभियंता नाव',isNULL ('','') as 'आमदारांचे नाव',isNULL ('','') as 'खासदारांचे नाव',isNULL ('','') as 'कंत्राटदार नाव',sum(cast(a.[PrashaskiyAmt] as decimal(10,2))) as 'प्रशासकीय मान्यता रक्कम',isNULL ('','') as 'प्रशासकीय मान्यता क्र/रक्कम/दिनांक',sum(cast(a.[TrantrikAmt] as decimal(10,2))) as 'तांत्रिक मान्यता रक्कम',isNULL ('','') as 'तांत्रिक मान्यता क्र/रक्कम/दिनांक ',isNULL ('','') as 'कामाचा वाव',isNULL ('','') as 'कार्यारंभ आदेश दिनांक',isNULL ('','') as 'निविदा रक्कम % कमी / जास्त',isNULL ('','') as 'बांधकाम कालावधी',isNULL ('','') as 'काम पूर्ण तारीख',isNULL ('','') as 'मुदतवाढ बाबत',sum(b.[ManjurAmt]) as 'मंजूर अंदाजित किंमत',sum(b.[MarchEndingExpn])as 'मार्च अखेर खर्च 2026',sum(b.[UrvaritAmt]) as 'उर्वरित किंमत',sum(b.[Chalukharch])as 'चालु खर्च',sum(b.[Magilkharch])as 'मागील खर्च',sum(b.[VarshbharatilKharch]) as 'सन 2025-2026 मधील माहे एप्रिल/मे अखेरचा खर्च',sum(b.[AikunKharch]) as 'एकुण कामावरील खर्च',sum(b.[Takunone]) as 'प्रथम तिमाही तरतूद',sum(b.[Takuntwo]) as 'द्वितीय तिमाही तरतूद',sum(b.[Takunthree]) as 'तृतीय तिमाही तरतूद',sum(b.[Takunfour]) as 'चतुर्थ तिमाही तरतूद',sum(b.[Tartud])as 'अर्थसंकल्पीय तरतूद',sum(b.[AkunAnudan]) as 'वितरित तरतूद',sum(b.[Magni]) as 'मागणी',sum(b.[Vidyutprama]) as 'प्रमा',sum(b.[Vidyutvitarit]) as 'वितरित',sum(b.[Itarkhrch]) as 'इतर खर्च',isNULL ('','') as 'दवगुनी ज्ञापने',isNULL ('','') as 'पाहणी क्रमांक',isNULL ('','') as 'पाहणीमुद्ये',isNULL ('','') as 'देयकाची सद्यस्थिती',isNULL ('','') as 'शेरा / कामाची सद्यस्थिती',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'पूर्ण'  THEN 1 ELSE 0 END as decimal(10,0))) as 'C',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'प्रगतीत'  THEN 1 ELSE 0 END as decimal(10,0))) as 'P',sum(CAST(CASE WHEN a.[Sadyasthiti] = N'निविदा स्तर'  THEN 1 ELSE 0 END as decimal(10,0))) as 'TS',sum (b.[Apr]) as [Apr],sum (b.[May]) as [May],sum (b.[Jun]) as [Jun],sum (b.[Jul]) as [Jul],sum (b.[Aug]) as [Aug],sum (b.[Sep]) as [Sep],sum (b.[Oct]) as [Oct],sum (b.[Nov]) as [Nov],sum (b.[Dec]) as [Dec],sum (b.[Jan]) as [Jan],sum (b.[Feb]) as [Feb],sum (b.[Mar]) as [Mar] from BudgetMasterResidentialBuilding as a join BuildingProvision as b on a.WorkId=b.WorkId   where  b.[Arthsankalpiyyear]=N'2025-2026'  group by a.[LekhaShirshName] order by a.[LekhaShirshName],a.[Arthsankalpiyyear],a.[upvibhag]`;
+    const result = await pool.request().query(query);
+
+    res.json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error in MASTERHEADWISEREPOST:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching MASTERHEADWISEREPOST",
+      error: error.message,
+    });
+  }
+};
+
 
 module.exports = {
   BUILDINGHEADWISEREPORT,
@@ -795,4 +1119,14 @@ module.exports = {
   MASTERHEADWISEREPOSTCRF,
   MASTERHEADWISEREPOSTNabard,
   MASTERHEADWISEREPOSTAnnuity,
+  MASTERHEADWISEREPOST2515,
+  MASTERHEADWISEREPOSTDepositeFund,
+  MASTERHEADWISEREPOSTDPDC,
+  MASTERHEADWISEREPOSTGatA,
+  MASTERHEADWISEREPOSTGatD,
+  MASTERHEADWISEREPOSTGatFBC,
+  MASTERHEADWISEREPOSTMLA,
+  MASTERHEADWISEREPOSTMP,
+  MASTERHEADWISEREPOSTNRB,
+  MASTERHEADWISEREPOSTRB
 };

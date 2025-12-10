@@ -2094,6 +2094,300 @@ const ContUpdPanelAunty = async (req, res) => {
     });
   }
 };
+
+const ContUpdPanel2515 = async (req, res) => {
+  const { office, name } = req.body;
+  if (!office || !name) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMaster2515  where ShakhaAbhyantaName=@name  or [UpabhyantaName]=@name  or ThekedaarName=@name   `;
+    const result = await pool.request().input("name", name).query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const ContUpdPanelDeposite_fund = async (req, res) => {
+  const { office, name } = req.body;
+  if (!office || !name) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterDepositFund  where ShakhaAbhyantaName=@name  or [UpabhyantaName]=@name  or ThekedaarName=@name   `;
+    const result = await pool.request().input("name", name).query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const ContUpdPanelDPDC = async (req, res) => {
+  const { office, name } = req.body;
+  if (!office || !name) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterDPDC   where ShakhaAbhyantaName=@name  or [UpabhyantaName]=@name  or ThekedaarName=@name   `;
+    const result = await pool.request().input("name", name).query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const ContUpdPanelGAT_A = async (req, res) => {
+  const { office, name } = req.body;
+  if (!office || !name) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterGAT_A   where ShakhaAbhyantaName=@name  or [UpabhyantaName]=@name  or ThekedaarName=@name   `;
+    const result = await pool.request().input("name", name).query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const ContUpdPanelGAT_D = async (req, res) => {
+  const { office, name } = req.body;
+  if (!office || !name) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterGAT_D   where ShakhaAbhyantaName=@name  or [UpabhyantaName]=@name  or ThekedaarName=@name   `;
+    const result = await pool.request().input("name", name).query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const ContUpdPanelGAT_FBC = async (req, res) => {
+  const { office, name } = req.body;
+  if (!office || !name) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterGAT_FBC   where ShakhaAbhyantaName=@name  or [UpabhyantaName]=@name  or ThekedaarName=@name   `;
+    const result = await pool.request().input("name", name).query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const ContUpdPanelMLA = async (req, res) => {
+  const { office, name } = req.body;
+  if (!office || !name) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterMLA   where ShakhaAbhyantaName=@name  or [UpabhyantaName]=@name  or ThekedaarName=@name   `;
+    const result = await pool.request().input("name", name).query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const ContUpdPanelMP = async (req, res) => {
+  const { office, name } = req.body;
+  if (!office || !name) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterMP   where ShakhaAbhyantaName=@name  or [UpabhyantaName]=@name  or ThekedaarName=@name   `;
+    const result = await pool.request().input("name", name).query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const ContUpdPanelNonResBui = async (req, res) => {
+  const { office, name } = req.body;
+  if (!office || !name) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterNonResidentialBuilding   where ShakhaAbhyantaName=@name  or [UpabhyantaName]=@name  or ThekedaarName=@name   `;
+    const result = await pool.request().input("name", name).query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const ContUpdPanelResBui = async (req, res) => {
+  const { office, name } = req.body;
+  if (!office || !name) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterResidentialBuilding   where ShakhaAbhyantaName=@name  or [UpabhyantaName]=@name  or ThekedaarName=@name   `;
+    const result = await pool.request().input("name", name).query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+
+
+
 const ContUpdPhotoBuilding = async (req, res) => {
   const { office } = req.body;
   if (!office) {
@@ -2207,7 +2501,386 @@ const ContUpdPhotoRoad = async (req, res) => {
     });
   }
 };
+const ContUpdPhoto2515 = async (req, res) => {
+  const { office } = req.body;
 
+  if (!office) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameter 'office' is required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+      SELECT [ImageId], [WorkId], [Image], [Description]
+      FROM ImageGallary
+      WHERE WorkId = '2212000400047' AND Type = '2515'
+      ORDER BY ImageId DESC
+    `;
+
+    const result = await pool.request().query(query);
+
+    return res.status(200).json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error fetching image data:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching image data",
+      error: error.message,
+    });
+  }
+};
+const ContUpdPhotoDeposite_fund = async (req, res) => {
+  const { office } = req.body;
+
+  if (!office) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameter 'office' is required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+      SELECT [ImageId], [WorkId], [Image], [Description]
+      FROM ImageGallary
+      WHERE WorkId = '2212000400047' AND Type = 'Deposite'
+      ORDER BY ImageId DESC
+    `;
+
+    const result = await pool.request().query(query);
+
+    return res.status(200).json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error fetching image data:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching image data",
+      error: error.message,
+    });
+  }
+};
+const ContUpdPhotoDPDC = async (req, res) => {
+  const { office } = req.body;
+
+  if (!office) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameter 'office' is required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+      SELECT [ImageId], [WorkId], [Image], [Description]
+      FROM ImageGallary
+      WHERE WorkId = '2212000400047' AND Type = 'DPDC'
+      ORDER BY ImageId DESC
+    `;
+
+    const result = await pool.request().query(query);
+
+    return res.status(200).json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error fetching image data:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching image data",
+      error: error.message,
+    });
+  }
+};
+const ContUpdPhotoGAT_A = async (req, res) => {
+  const { office } = req.body;
+
+  if (!office) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameter 'office' is required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+      SELECT [ImageId], [WorkId], [Image], [Description]
+      FROM ImageGallary
+      WHERE WorkId = '2212000400047' AND Type = 'GAT_A'
+      ORDER BY ImageId DESC
+    `;
+
+    const result = await pool.request().query(query);
+
+    return res.status(200).json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error fetching image data:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching image data",
+      error: error.message,
+    });
+  }
+};
+const ContUpdPhotoGAT_D = async (req, res) => {
+  const { office } = req.body;
+
+  if (!office) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameter 'office' is required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+      SELECT [ImageId], [WorkId], [Image], [Description]
+      FROM ImageGallary
+      WHERE WorkId = '2212000400047' AND Type = 'GAT_D'
+      ORDER BY ImageId DESC
+    `;
+
+    const result = await pool.request().query(query);
+
+    return res.status(200).json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error fetching image data:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching image data",
+      error: error.message,
+    });
+  }
+};
+const ContUpdPhotoGAT_FBC = async (req, res) => {
+  const { office } = req.body;
+
+  if (!office) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameter 'office' is required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+      SELECT [ImageId], [WorkId], [Image], [Description]
+      FROM ImageGallary
+      WHERE WorkId = '2212000400047' AND Type = 'GAT_FBC'
+      ORDER BY ImageId DESC
+    `;
+
+    const result = await pool.request().query(query);
+
+    return res.status(200).json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error fetching image data:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching image data",
+      error: error.message,
+    });
+  }
+};
+const ContUpdPhotoMLA = async (req, res) => {
+  const { office } = req.body;
+
+  if (!office) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameter 'office' is required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+      SELECT [ImageId], [WorkId], [Image], [Description]
+      FROM ImageGallary
+      WHERE WorkId = '2212000400047' AND Type = 'MLA'
+      ORDER BY ImageId DESC
+    `;
+
+    const result = await pool.request().query(query);
+
+    return res.status(200).json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error fetching image data:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching image data",
+      error: error.message,
+    });
+  }
+};
+const ContUpdPhotoMP = async (req, res) => {
+  const { office } = req.body;
+
+  if (!office) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameter 'office' is required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+      SELECT [ImageId], [WorkId], [Image], [Description]
+      FROM ImageGallary
+      WHERE WorkId = '2212000400047' AND Type = 'MP'
+      ORDER BY ImageId DESC
+    `;
+
+    const result = await pool.request().query(query);
+
+    return res.status(200).json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error fetching image data:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching image data",
+      error: error.message,
+    });
+  }
+};
+const ContUpdPhotoNonResBui = async (req, res) => {
+  const { office } = req.body;
+
+  if (!office) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameter 'office' is required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+      SELECT [ImageId], [WorkId], [Image], [Description]
+      FROM ImageGallary
+      WHERE WorkId = '2212000400047' AND Type = 'NRB'
+      ORDER BY ImageId DESC
+    `;
+
+    const result = await pool.request().query(query);
+
+    return res.status(200).json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error fetching image data:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching image data",
+      error: error.message,
+    });
+  }
+};
+const ContUpdPhotoResBui = async (req, res) => {
+  const { office } = req.body;
+
+  if (!office) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameter 'office' is required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+      SELECT [ImageId], [WorkId], [Image], [Description]
+      FROM ImageGallary
+      WHERE WorkId = '2212000400047' AND Type = 'RB'
+      ORDER BY ImageId DESC
+    `;
+
+    const result = await pool.request().query(query);
+
+    return res.status(200).json({
+      success: true,
+      data: result.recordset,
+    });
+  } catch (error) {
+    console.error("Error fetching image data:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching image data",
+      error: error.message,
+    });
+  }
+};
 const ContUpdPhotoAunty = async (req, res) => {
   const { office } = req.body;
 
@@ -2246,6 +2919,7 @@ const ContUpdPhotoAunty = async (req, res) => {
     });
   }
 };
+
 
 const ShowImage = async (req, res) => {
   const { office, name } = req.body;
@@ -2325,12 +2999,30 @@ ON ig.WorkId = matchedWorks.WorkId;
 };
 
 const uploadImage = async (req, res) => {
-  const { office, Data, filename, Content, Longitude, Latitude, WorkId, Type, Description } = req.body;
+  const {
+    office,
+    Data,
+    filename,
+    Content,
+    Longitude,
+    Latitude,
+    WorkId,
+    Type,
+    Description,
+  } = req.body;
 
-  if (!office || !Data || !filename || !Content || Longitude == null || Latitude == null) {
+  if (
+    !office ||
+    !Data ||
+    !filename ||
+    !Content ||
+    Longitude == null ||
+    Latitude == null
+  ) {
     return res.status(400).json({
       success: false,
-      message: "Parameters 'office', 'Data', 'Latitude','Longitude', 'filename', and 'Content' are required",
+      message:
+        "Parameters 'office', 'Data', 'Latitude','Longitude', 'filename', and 'Content' are required",
     });
   }
 
@@ -2340,17 +3032,30 @@ const uploadImage = async (req, res) => {
       throw new Error(`Database pool is not available for office ${office}.`);
     }
 
+    // Upload image to Cloudinary. Data is expected to be a base64 string.
+    const uploadResponse = await cloudinary.uploader.upload(
+      `data:${Content};base64,${Data}`,
+      {
+        folder: "image-gallary",
+        resource_type: "image",
+        public_id: filename ? filename.split(".")[0] : undefined,
+        overwrite: true,
+      }
+    );
+
+    const imageUrl = uploadResponse.secure_url;
+
     const query = `
       INSERT INTO [ImageGallary]
-      ([WorkId], [Type], [Image], [ContentType], [Filepath], [Description], [Longitude], [Latitude])
-      VALUES (@WorkId, @Type, @Data, @Content, @Filename, @Description, @Longitude, @Latitude)
+      ([WorkId], [Type], [ImageUrl], [ContentType], [Filepath], [Description], [Longitude], [Latitude])
+      VALUES (@WorkId, @Type, @ImageUrl, @Content, @Filename, @Description, @Longitude, @Latitude)
     `;
 
     await pool
       .request()
       .input("WorkId", sql.NVarChar, WorkId)
       .input("Type", sql.NVarChar, Type)
-      .input("Data", sql.VarBinary(sql.MAX), Buffer.from(Data, 'base64'))      
+      .input("ImageUrl", sql.NVarChar, imageUrl)
       .input("Content", sql.NVarChar, Content)
       .input("Filename", sql.NVarChar, filename)
       .input("Description", sql.NVarChar, Description)
@@ -2361,6 +3066,8 @@ const uploadImage = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Image uploaded successfully",
+      imageUrl,
+      publicId: uploadResponse.public_id,
     });
   } catch (error) {
     console.error("Error uploading image:", error);
@@ -2374,7 +3081,7 @@ const uploadImage = async (req, res) => {
 
 
 const allImage = async (req, res) => {
-  const { office } = req.body;
+  const { office, page = 1, pageSize = 20 } = req.body;
 
   if (!office) {
     return res.status(400).json({
@@ -2389,26 +3096,60 @@ const allImage = async (req, res) => {
       throw new Error(`Database pool is not available for office ${office}.`);
     }
 
-    const query = `
-      SELECT Image, KamacheName, Longitude, Latitude, ContentType
-      FROM [ImageGallary]
+    const currentPage = Math.max(parseInt(page, 10) || 1, 1);
+    const normalizedPageSize = Math.min(
+      Math.max(parseInt(pageSize, 10) || 20, 1),
+      100
+    );
+    const offset = (currentPage - 1) * normalizedPageSize;
+
+    const baseColumns = `
+      ImageId,
+      WorkId,
+      KamacheName,
+      Longitude,
+      Latitude,
+      ContentType,
+      ImageUrl
     `;
 
-    const result = await pool.request().query(query);
+    const dataQuery = `
+      SELECT ${baseColumns}
+      FROM [ImageGallary]
+      ORDER BY ImageId
+      OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY
+    `;
 
-    const images = result.recordset.map((row) => {
-      const base64Image = Buffer.from(row.Image).toString("base64");
-      const imageSrc = `data:${row.ContentType};base64,${base64Image}`;
-      return {
-        image: imageSrc,
-        KamacheName: row.KamacheName,
-        Longitude: row.Longitude,
-        Latitude: row.Latitude,
-      };
-    });
+    const [countResult, dataResult] = await Promise.all([
+      pool
+        .request()
+        .query("SELECT COUNT(1) AS totalImages FROM [ImageGallary]"),
+      pool
+        .request()
+        .input("offset", sql.Int, offset)
+        .input("pageSize", sql.Int, normalizedPageSize)
+        .query(dataQuery),
+    ]);
+
+    const totalImages = countResult.recordset[0]?.totalImages || 0;
+
+    const images = dataResult.recordset.map((row) => ({
+      workId: row.WorkId,
+      KamacheName: row.KamacheName,
+      Longitude: row.Longitude,
+      Latitude: row.Latitude,
+      ContentType: row.ContentType,
+      imageUrl: row.ImageUrl,
+    }));
 
     return res.status(200).json({
       success: true,
+      pagination: {
+        page: currentPage,
+        pageSize: normalizedPageSize,
+        total: totalImages,
+        hasMore: offset + images.length < totalImages,
+      },
       data: images,
     });
   } catch (error) {
@@ -2631,6 +3372,398 @@ LEFT JOIN
   }
 };
 
+const EEUpdPanel2515 = async (req, res) => {
+  const { office} = req.body;
+  if (!office) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    //const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterNABARD  `;
+const query = `SELECT 
+    B.[WorkId] AS 'वर्क आयडी',
+    B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
+    B.[KamacheName] AS 'कामाचे नाव',
+    B.[Shera] AS 'शेरा',
+    I.[Image] AS 'प्रतिमा'
+FROM 
+    BudgetMaster2515 B
+LEFT JOIN 
+    ImageGallary I ON B.WorkId = I.WorkId`;
+    const result = await pool.request().query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const EEUpdPanelDepositeFund = async (req, res) => {
+  const { office} = req.body;
+  if (!office) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    //const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterNABARD  `;
+const query = `SELECT 
+    B.[WorkId] AS 'वर्क आयडी',
+    B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
+    B.[KamacheName] AS 'कामाचे नाव',
+    B.[Shera] AS 'शेरा',
+    I.[Image] AS 'प्रतिमा'
+FROM 
+    BudgetMasterDepositeFund B
+LEFT JOIN 
+    ImageGallary I ON B.WorkId = I.WorkId`;
+    const result = await pool.request().query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const EEUpdPanelDPDC = async (req, res) => {
+  const { office} = req.body;
+  if (!office) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    //const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterNABARD  `;
+const query = `SELECT 
+    B.[WorkId] AS 'वर्क आयडी',
+    B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
+    B.[KamacheName] AS 'कामाचे नाव',
+    B.[Shera] AS 'शेरा',
+    I.[Image] AS 'प्रतिमा'
+FROM 
+    BudgetMasterDPDC B
+LEFT JOIN 
+    ImageGallary I ON B.WorkId = I.WorkId`;
+    const result = await pool.request().query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const EEUpdPanelGatA = async (req, res) => {
+  const { office} = req.body;
+  if (!office) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    //const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterNABARD  `;
+const query = `SELECT 
+    B.[WorkId] AS 'वर्क आयडी',
+    B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
+    B.[KamacheName] AS 'कामाचे नाव',
+    B.[Shera] AS 'शेरा',
+    I.[Image] AS 'प्रतिमा'
+FROM 
+    BudgetMasterGAT_A B
+LEFT JOIN 
+    ImageGallary I ON B.WorkId = I.WorkId`;
+    const result = await pool.request().query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const EEUpdPanelGatD = async (req, res) => {
+  const { office} = req.body;
+  if (!office) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    //const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterNABARD  `;
+const query = `SELECT 
+    B.[WorkId] AS 'वर्क आयडी',
+    B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
+    B.[KamacheName] AS 'कामाचे नाव',
+    B.[Shera] AS 'शेरा',
+    I.[Image] AS 'प्रतिमा'
+FROM 
+    BudgetMasterGAT_D B
+LEFT JOIN 
+    ImageGallary I ON B.WorkId = I.WorkId`;
+    const result = await pool.request().query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const EEUpdPanelGatFBC = async (req, res) => {
+  const { office} = req.body;
+  if (!office) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    //const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterNABARD  `;
+const query = `SELECT 
+    B.[WorkId] AS 'वर्क आयडी',
+    B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
+    B.[KamacheName] AS 'कामाचे नाव',
+    B.[Shera] AS 'शेरा',
+    I.[Image] AS 'प्रतिमा'
+FROM 
+    BudgetMasterGAT_FBC B
+LEFT JOIN 
+    ImageGallary I ON B.WorkId = I.WorkId`;
+    const result = await pool.request().query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const EEUpdPanelMLA = async (req, res) => {
+  const { office} = req.body;
+  if (!office) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    //const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterNABARD  `;
+const query = `SELECT 
+    B.[WorkId] AS 'वर्क आयडी',
+    B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
+    B.[KamacheName] AS 'कामाचे नाव',
+    B.[Shera] AS 'शेरा',
+    I.[Image] AS 'प्रतिमा'
+FROM 
+    BudgetMasterMLA B
+LEFT JOIN 
+    ImageGallary I ON B.WorkId = I.WorkId`;
+    const result = await pool.request().query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const EEUpdPanelMP = async (req, res) => {
+  const { office} = req.body;
+  if (!office) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    //const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterNABARD  `;
+const query = `SELECT 
+    B.[WorkId] AS 'वर्क आयडी',
+    B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
+    B.[KamacheName] AS 'कामाचे नाव',
+    B.[Shera] AS 'शेरा',
+    I.[Image] AS 'प्रतिमा'
+FROM 
+    BudgetMasterMP B
+LEFT JOIN 
+    ImageGallary I ON B.WorkId = I.WorkId`;
+    const result = await pool.request().query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const EEUpdPanelRB = async (req, res) => {
+  const { office} = req.body;
+  if (!office) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    //const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterNABARD  `;
+const query = `SELECT 
+    B.[WorkId] AS 'वर्क आयडी',
+    B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
+    B.[KamacheName] AS 'कामाचे नाव',
+    B.[Shera] AS 'शेरा',
+    I.[Image] AS 'प्रतिमा'
+FROM 
+    BudgetMasterResidentialBuilding B
+LEFT JOIN 
+    ImageGallary I ON B.WorkId = I.WorkId`;
+    const result = await pool.request().query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+const EEUpdPanelNRB = async (req, res) => {
+  const { office} = req.body;
+  if (!office) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    //const query = `SELECT  [WorkId] as 'वर्क आयडी',[Arthsankalpiyyear] as 'अर्थसंकल्पीय वर्ष',[KamacheName] as 'कामाचे नाव',[Shera] as 'शेरा'  from BudgetMasterNABARD  `;
+const query = `SELECT 
+    B.[WorkId] AS 'वर्क आयडी',
+    B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
+    B.[KamacheName] AS 'कामाचे नाव',
+    B.[Shera] AS 'शेरा',
+    I.[Image] AS 'प्रतिमा'
+FROM 
+    BudgetMasterNonResidentialBuilding B
+LEFT JOIN 
+    ImageGallary I ON B.WorkId = I.WorkId`;
+    const result = await pool.request().query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
+
+
 const UpdateStatusBuilding = async (req, res) => {
   const { office, workID, status } = req.body;
 
@@ -2843,6 +3976,422 @@ const UpdateStatusNabard = async (req, res) => {
     });
   }
 };
+
+const UpdateStatus2515 = async (req, res) => {
+  const { office, workID, status } = req.body;
+
+  if (!office || !workID || status === undefined) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameters 'office', 'workID', and 'status' are required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+    update BudgetMaster2515 
+	  SET Shera = @Status
+    WHERE [WorkId] = @WorkId
+    `;
+
+    const result = await pool
+      .request()
+      .input("WorkId", sql.NVarChar, workID)
+      .input("Status", sql.NVarChar, status)
+      .query(query);
+
+    return res.status(200).json({
+      success: true,
+      message: "Status updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating status",
+      error: error.message,
+    });
+  }
+};
+
+const UpdateStatusDepositeFund = async (req, res) => {
+  const { office, workID, status } = req.body;
+
+  if (!office || !workID || status === undefined) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameters 'office', 'workID', and 'status' are required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+    update BudgetMasterDepositeFund 
+	  SET Shera = @Status
+    WHERE [WorkId] = @WorkId
+    `;
+
+    const result = await pool
+      .request()
+      .input("WorkId", sql.NVarChar, workID)
+      .input("Status", sql.NVarChar, status)
+      .query(query);
+
+    return res.status(200).json({
+      success: true,
+      message: "Status updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating status",
+      error: error.message,
+    });
+  }
+};
+
+const UpdateStatusDPDC = async (req, res) => {
+  const { office, workID, status } = req.body;
+
+  if (!office || !workID || status === undefined) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameters 'office', 'workID', and 'status' are required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+    update BudgetMasterDPDC 
+	  SET Shera = @Status
+    WHERE [WorkId] = @WorkId
+    `;
+
+    const result = await pool
+      .request()
+      .input("WorkId", sql.NVarChar, workID)
+      .input("Status", sql.NVarChar, status)
+      .query(query);
+
+    return res.status(200).json({
+      success: true,
+      message: "Status updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating status",
+      error: error.message,
+    });
+  }
+};
+
+const UpdateStatusGatA = async (req, res) => {
+  const { office, workID, status } = req.body;
+
+  if (!office || !workID || status === undefined) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameters 'office', 'workID', and 'status' are required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+    update BudgetMasterGAT_A 
+	  SET Shera = @Status
+    WHERE [WorkId] = @WorkId
+    `;
+
+    const result = await pool
+      .request()
+      .input("WorkId", sql.NVarChar, workID)
+      .input("Status", sql.NVarChar, status)
+      .query(query);
+
+    return res.status(200).json({
+      success: true,
+      message: "Status updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating status",
+      error: error.message,
+    });
+  }
+};
+
+const UpdateStatusGatB = async (req, res) => {
+  const { office, workID, status } = req.body;
+
+  if (!office || !workID || status === undefined) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameters 'office', 'workID', and 'status' are required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+    update BudgetMasterGAT_B 
+	  SET Shera = @Status
+    WHERE [WorkId] = @WorkId
+    `;
+
+    const result = await pool
+      .request()
+      .input("WorkId", sql.NVarChar, workID)
+      .input("Status", sql.NVarChar, status)
+      .query(query);
+
+    return res.status(200).json({
+      success: true,
+      message: "Status updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating status",
+      error: error.message,
+    });
+  }
+};
+const UpdateStatusGatFBC = async (req, res) => {
+  const { office, workID, status } = req.body;
+
+  if (!office || !workID || status === undefined) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameters 'office', 'workID', and 'status' are required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+    update BudgetMasterGAT_FBC 
+	  SET Shera = @Status
+    WHERE [WorkId] = @WorkId
+    `;
+
+    const result = await pool
+      .request()
+      .input("WorkId", sql.NVarChar, workID)
+      .input("Status", sql.NVarChar, status)
+      .query(query);
+
+    return res.status(200).json({
+      success: true,
+      message: "Status updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating status",
+      error: error.message,
+    });
+  }
+};
+const UpdateStatusMLA = async (req, res) => {
+  const { office, workID, status } = req.body;
+
+  if (!office || !workID || status === undefined) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameters 'office', 'workID', and 'status' are required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+    update BudgetMasterMLA 
+	  SET Shera = @Status
+    WHERE [WorkId] = @WorkId
+    `;
+
+    const result = await pool
+      .request()
+      .input("WorkId", sql.NVarChar, workID)
+      .input("Status", sql.NVarChar, status)
+      .query(query);
+
+    return res.status(200).json({
+      success: true,
+      message: "Status updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating status",
+      error: error.message,
+    });
+  }
+};
+const UpdateStatusMP = async (req, res) => {
+  const { office, workID, status } = req.body;
+
+  if (!office || !workID || status === undefined) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameters 'office', 'workID', and 'status' are required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+    update BudgetMasterMP 
+	  SET Shera = @Status
+    WHERE [WorkId] = @WorkId
+    `;
+
+    const result = await pool
+      .request()
+      .input("WorkId", sql.NVarChar, workID)
+      .input("Status", sql.NVarChar, status)
+      .query(query);
+
+    return res.status(200).json({
+      success: true,
+      message: "Status updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating status",
+      error: error.message,
+    });
+  }
+};
+const UpdateStatusNRB = async (req, res) => {
+  const { office, workID, status } = req.body;
+
+  if (!office || !workID || status === undefined) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameters 'office', 'workID', and 'status' are required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+    update BudgetMasterNonResidentialBuilding 
+	  SET Shera = @Status
+    WHERE [WorkId] = @WorkId
+    `;
+
+    const result = await pool
+      .request()
+      .input("WorkId", sql.NVarChar, workID)
+      .input("Status", sql.NVarChar, status)
+      .query(query);
+
+    return res.status(200).json({
+      success: true,
+      message: "Status updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating status",
+      error: error.message,
+    });
+  }
+};
+const UpdateStatusRB = async (req, res) => {
+  const { office, workID, status } = req.body;
+
+  if (!office || !workID || status === undefined) {
+    return res.status(400).json({
+      success: false,
+      message: "Parameters 'office', 'workID', and 'status' are required",
+    });
+  }
+
+  try {
+    const pool = await getPool(office);
+    if (!pool) {
+      throw new Error(`Database pool is not available for office ${office}.`);
+    }
+
+    const query = `
+    update BudgetMasterResidentialBuilding 
+	  SET Shera = @Status
+    WHERE [WorkId] = @WorkId
+    `;
+
+    const result = await pool
+      .request()
+      .input("WorkId", sql.NVarChar, workID)
+      .input("Status", sql.NVarChar, status)
+      .query(query);
+
+    return res.status(200).json({
+      success: true,
+      message: "Status updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating status",
+      error: error.message,
+    });
+  }
+};
+
 
 
 //CIRCLE
@@ -3334,11 +4883,33 @@ module.exports = {
   ContUpdPanelNABARD,
   ContUpdPanelROAD,
   ContUpdPanelAunty,
+  ContUpdPanel2515,
+  ContUpdPanelDPDC,
+  ContUpdPanelGAT_A,
+  ContUpdPanelGAT_D,
+  ContUpdPanelGAT_FBC,
+  ContUpdPanelMLA,
+  ContUpdPanelMP,
+  ContUpdPanelNonResBui,
+  ContUpdPanelResBui,
+  ContUpdPanelDeposite_fund,
+
   ContUpdPhotoAunty,
   ContUpdPhotoRoad,
   ContUpdPhotoCrf,
   ContUpdPhotoNabard,
   ContUpdPhotoBuilding,
+  ContUpdPhoto2515,
+  ContUpdPhotoDeposite_fund,
+  ContUpdPhotoDPDC,
+  ContUpdPhotoGAT_A,
+  ContUpdPhotoGAT_D,
+  ContUpdPhotoGAT_FBC,
+  ContUpdPhotoMLA,
+  ContUpdPhotoMP,
+  ContUpdPhotoNonResBui,
+  ContUpdPhotoResBui,
+
   ShowImage,
   uploadImage,
   UpdateStatusBuilding,
@@ -3346,12 +4917,34 @@ module.exports = {
   UpdateStatusRoad,
   UpdateStatusNabard,
   UpdateStatusCrf,
+  UpdateStatus2515,
+  UpdateStatusDepositeFund,
+  UpdateStatusDPDC,
+  UpdateStatusGatA,
+  UpdateStatusGatB,
+  UpdateStatusGatFBC,
+  UpdateStatusMLA,
+  UpdateStatusMP,
+  UpdateStatusNRB,
+  UpdateStatusRB,
+
   allImage,
   EEUpdPanelAunty,
   EEUpdPanelROAD,
   EEUpdPanelCrf,
   EEUpdPanelNABARD,
   EEUpdPanelBuilding,
+  EEUpdPanel2515,
+  EEUpdPanelDepositeFund,
+  EEUpdPanelDPDC,
+  EEUpdPanelGatA,
+  EEUpdPanelGatD,
+  EEUpdPanelGatFBC,
+  EEUpdPanelMLA,
+  EEUpdPanelMP,
+  EEUpdPanelRB,
+  EEUpdPanelNRB,
+  
 
   CircleChartCount,
   CirclePieChartCount,
