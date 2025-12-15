@@ -3182,7 +3182,7 @@ SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMasterBuilding B
 LEFT JOIN 
@@ -3220,7 +3220,7 @@ const EEUpdPanelCrf = async (req, res) => {
         B.[Arthsankalpiyyear] AS Arthsankalpiyyear,
         B.[KamacheName] AS KamacheName,
         B.[Shera] AS Shera,
-        I.[Image] AS Image,
+        I.[ImageUrl] AS Image,
         I.[ContentType] AS ContentType
       FROM 
         BudgetMasterCRF B
@@ -3274,7 +3274,7 @@ const query = `SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMasterRoad B
 LEFT JOIN 
@@ -3313,7 +3313,7 @@ const query = `SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMasterAunty B
 LEFT JOIN 
@@ -3352,7 +3352,7 @@ const query = `SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMasterNABARD B
 LEFT JOIN 
@@ -3391,7 +3391,7 @@ const query = `SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMaster2515 B
 LEFT JOIN 
@@ -3430,7 +3430,7 @@ const query = `SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMasterDepositeFund B
 LEFT JOIN 
@@ -3469,7 +3469,7 @@ const query = `SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMasterDPDC B
 LEFT JOIN 
@@ -3508,7 +3508,7 @@ const query = `SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMasterGAT_A B
 LEFT JOIN 
@@ -3547,7 +3547,7 @@ const query = `SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMasterGAT_D B
 LEFT JOIN 
@@ -3586,7 +3586,7 @@ const query = `SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMasterGAT_FBC B
 LEFT JOIN 
@@ -3625,7 +3625,7 @@ const query = `SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMasterMLA B
 LEFT JOIN 
@@ -3664,7 +3664,7 @@ const query = `SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMasterMP B
 LEFT JOIN 
@@ -3703,7 +3703,7 @@ const query = `SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMasterResidentialBuilding B
 LEFT JOIN 
@@ -3742,7 +3742,7 @@ const query = `SELECT
     B.[Arthsankalpiyyear] AS 'अर्थसंकल्पीय वर्ष',
     B.[KamacheName] AS 'कामाचे नाव',
     B.[Shera] AS 'शेरा',
-    I.[Image] AS 'प्रतिमा'
+    I.[ImageUrl] AS 'प्रतिमा'
 FROM 
     BudgetMasterNonResidentialBuilding B
 LEFT JOIN 
