@@ -2999,64 +2999,31 @@ ON ig.WorkId = matchedWorks.WorkId;
 };
 
 const uploadImage = async (req, res) => {
-  const {
-    office,
-    Data,
-    filename,
-    Content,
-    Longitude,
-    Latitude,
-    WorkId,
-    Type,
-    Description,
-  } = req.body;
+  const { office, ImageUrl, filename, ContentType, Longitude, Latitude, WorkId, Type, Description } = req.body;
 
-  if (
-    !office ||
-    !Data ||
-    !filename ||
-    !Content ||
-    Longitude == null ||
-    Latitude == null
-  ) {
+  // Validate required fields
+  if (!office || !ImageUrl || !filename || Longitude == null || Latitude == null) {
     return res.status(400).json({
       success: false,
-      message:
-        "Parameters 'office', 'Data', 'Latitude','Longitude', 'filename', and 'Content' are required",
+      message: "Required fields missing"
     });
   }
 
   try {
     const pool = await getPool(office);
-    if (!pool) {
-      throw new Error(`Database pool is not available for office ${office}.`);
-    }
-
-    // Upload image to Cloudinary. Data is expected to be a base64 string.
-    const uploadResponse = await cloudinary.uploader.upload(
-      `data:${Content};base64,${Data}`,
-      {
-        folder: "image-gallary",
-        resource_type: "image",
-        public_id: filename ? filename.split(".")[0] : undefined,
-        overwrite: true,
-      }
-    );
-
-    const imageUrl = uploadResponse.secure_url;
-
+    
+    // Simply insert the URL into database (no Cloudinary upload needed)
     const query = `
       INSERT INTO [ImageGallary]
       ([WorkId], [Type], [ImageUrl], [ContentType], [Filepath], [Description], [Longitude], [Latitude])
-      VALUES (@WorkId, @Type, @ImageUrl, @Content, @Filename, @Description, @Longitude, @Latitude)
+      VALUES (@WorkId, @Type, @ImageUrl, @ContentType, @Filename, @Description, @Longitude, @Latitude)
     `;
 
-    await pool
-      .request()
+    await pool.request()
       .input("WorkId", sql.NVarChar, WorkId)
       .input("Type", sql.NVarChar, Type)
-      .input("ImageUrl", sql.NVarChar, imageUrl)
-      .input("Content", sql.NVarChar, Content)
+      .input("ImageUrl", sql.NVarChar, ImageUrl)
+      .input("ContentType", sql.NVarChar, ContentType)
       .input("Filename", sql.NVarChar, filename)
       .input("Description", sql.NVarChar, Description)
       .input("Longitude", sql.Float, Longitude)
@@ -3065,16 +3032,15 @@ const uploadImage = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Image uploaded successfully",
-      imageUrl,
-      publicId: uploadResponse.public_id,
+      message: "Image URL stored successfully",
+      imageUrl: ImageUrl
     });
   } catch (error) {
-    console.error("Error uploading image:", error);
+    console.error("Error storing image URL:", error);
     return res.status(500).json({
       success: false,
-      message: "Error uploading image",
-      error: error.message,
+      message: "Error storing image URL",
+      error: error.message
     });
   }
 };
