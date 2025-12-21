@@ -154,12 +154,14 @@ const {
   getGATFBC,
   getGATD,
   getMLA,
+  deputyGraph,
   get2515,
 } = require("../controllers/budgetController");
 
 // Route to get budget count
 router.post("/count", getBudgetCount);
 router.post("/contractorGraph", contractorGraph);
+router.post("/deputyGraph", deputyGraph);
 
 // Route to get Upvibhag counts from all budget tables
 router.post("/upvibhag-counts", getUpvibhagCounts);
