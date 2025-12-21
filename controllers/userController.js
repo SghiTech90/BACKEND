@@ -19,8 +19,8 @@ const sendSMS = async (mobileNo, message) => {
   try {
     let phoneNumber = mobileNo.startsWith("91") ? mobileNo : "91" + mobileNo;
     console.log(phoneNumber);
-    console.log(wishbyApiKey);
-    console.log(wishbySenderId);
+    console.log('apikey',wishbyApiKey);
+    console.log('senderid',wishbySenderId);
 
     const encodedMessage = encodeURIComponent(message);
     console.log(encodedMessage);

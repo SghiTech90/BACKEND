@@ -1090,6 +1090,37 @@ SELECT a.[Sadyasthiti]as 'Work Status', Count(a.[Sadyasthiti])as'Total Work',sum
   }
 };
 
+const deputyGraph = async (req, res) => {
+  const { office, position, name } = req.body;
+  if (!office || !position || !name) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter is required" });
+  }
+  try {
+    const pool = await getPool(office);
+    if (!pool)
+      throw new Error(`Database pool is not available for office ${office}.`);
+
+    // Example: Detailed query on Building tables, adjust as needed
+    const query = `
+select  (select  count(*) from BudgetMasterBuilding where UpabhyantaName=@name group by UpabhyantaName )as Building ,(select  count(*) from  BudgetMasterCRF where UpabhyantaName=@name group by UpabhyantaName )as CRF ,(select  count(*) from BudgetMasterAunty where UpabhyantaName=@name group by UpabhyantaName  )as Annuity,(select  count(*) from BudgetMasterDepositFund where UpabhyantaName=@name group by UpabhyantaName )as Deposit, (select  count(*) from  BudgetMasterDPDC where UpabhyantaName=@name group by UpabhyantaName )as DPDC , (select  count(*) from  BudgetMasterGAT_A where UpabhyantaName=@name group by UpabhyantaName )as Gat_A , (select  count(*) from  BudgetMasterGAT_D where UpabhyantaName=@name group by UpabhyantaName )as Gat_D , (select  count(*) from  BudgetMasterGAT_FBC where UpabhyantaName=@name group by UpabhyantaName  ) as Gat_BCF, (select  count(*) from  BudgetMasterMLA where UpabhyantaName=@name group by UpabhyantaName  )as MLA , (select  count(*) from  BudgetMasterMP where UpabhyantaName=@name group by UpabhyantaName ) as MP, (select  count(*) from  BudgetMasterNABARD where UpabhyantaName=@name group by UpabhyantaName )as Nabard , (select  count(*) from  BudgetMasterRoad where UpabhyantaName=@name group by UpabhyantaName )as Road , (select  count(*) from  BudgetMasterNonResidentialBuilding where UpabhyantaName=@name group by UpabhyantaName )as NRB2059 , (select  count(*) from  BudgetMasterResidentialBuilding where UpabhyantaName=@name group by UpabhyantaName )as RB2216  , (select count(*) from [BudgetMaster2515] where UpabhyantaName=@name group by UpabhyantaName )as GramVikas 
+      `;
+    const result = await pool.request().input("name", name).query(query);
+    res.json({ success: true, data: result.recordset });
+  } catch (error) {
+    console.error(
+      "Error getting contractorGraph details:",
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Error getting contractorGraph details",
+      error: error.message,
+    });
+  }
+};
+
 const contractorGraph = async (req, res) => {
   const { office, position, name } = req.body;
   if (!office || !position || !name) {
@@ -4937,4 +4968,5 @@ module.exports = {
   getGATD,
   getMLA,
   get2515,
+  deputyGraph
 };
