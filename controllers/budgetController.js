@@ -56,7 +56,7 @@ const getBudgetCount = async (req, res) => {
       { table: "BudgetMasterAunty", title: "Annuity" },
       { table: "BudgetMasterNABARD", title: "NABARD" },
       { table: "BudgetMasterRoad", title: "ROAD" },
-      { table: "BudgetMasterGAT_A", title: "NonPlan(3054)" },
+      { table: "BudgetMasterGAT_A", title: "NonPlan" },
       { table: "BudgetMaster2515", title: "2515" },
       { table: "BudgetMasterDepositFund", title: "Deposit" },
       { table: "BudgetMasterDPDC", title: "DPDC" },
