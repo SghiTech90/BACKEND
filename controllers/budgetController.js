@@ -1,10 +1,72 @@
 const { getPool, sql } = require("../config/db");
 const axios = require("axios");
+const crypto = require("crypto");
 require("dotenv").config();
+
+// Cloudinary configuration
+const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME || "dw05behxm";
+const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY || "814579237361368";
+const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET || "jX3rdWutVadD4YW6sG44Lzy7k6c";
 
 const wishbyApiKey = process.env.WISHBY_API_KEY;
 const wishbySenderId = process.env.WISHBY_SENDER_ID;
 const DLT_TEMPLATE_ID_DAY_UPDATE = process.env.DLT_ID_DAY_UPDATE || "1707174246372891167";
+
+// Utility to upload image to Cloudinary
+const uploadToCloudinary = async (base64Data, contentType = 'image/jpeg') => {
+  try {
+    // Prepare base64 data URL
+    let dataUrl = base64Data;
+    if (!base64Data.startsWith('data:')) {
+      dataUrl = `data:${contentType};base64,${base64Data}`;
+    }
+
+    // Generate timestamp for signature
+    const timestamp = Math.round(new Date().getTime() / 1000);
+
+    // Prepare parameters for signature (only non-file parameters)
+    const params = {
+      timestamp: timestamp.toString(),
+    };
+
+    // Generate signature (HMAC SHA-1)
+    const paramsString = Object.keys(params)
+      .sort()
+      .map(key => `${key}=${params[key]}`)
+      .join('&');
+    const signature = crypto
+      .createHmac('sha1', CLOUDINARY_API_SECRET)
+      .update(paramsString)
+      .digest('hex');
+
+    // Create FormData
+    const FormData = require('form-data');
+    const formData = new FormData();
+    formData.append('file', dataUrl);
+    formData.append('api_key', CLOUDINARY_API_KEY);
+    formData.append('timestamp', timestamp.toString());
+    formData.append('signature', signature);
+
+    // Upload to Cloudinary
+    const uploadUrl = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+    
+    const response = await axios.post(uploadUrl, formData, {
+      headers: formData.getHeaders(),
+    });
+
+    if (response.data && response.data.secure_url) {
+      return response.data.secure_url;
+    } else {
+      throw new Error('No secure_url in Cloudinary response');
+    }
+  } catch (error) {
+    console.error('Error uploading to Cloudinary:', error.message);
+    if (error.response) {
+      console.error('Cloudinary error response:', error.response.data);
+    }
+    throw error;
+  }
+};
 
 // Utility to send SMS via WishbySMS gateway
 const sendSMS = async (mobileNo, message) => {
@@ -2969,7 +3031,7 @@ const ShowImage = async (req, res) => {
     }
 
     const query = `
-      SELECT ig.WorkId, ig.Image
+      SELECT ig.WorkId, ig.ImageUrl
 FROM ImageGallary ig
 JOIN (
     SELECT WorkId FROM BudgetMasterBuilding
@@ -3010,14 +3072,14 @@ ON ig.WorkId = matchedWorks.WorkId;
 
     const result = await pool.request().input("NAME", name).query(query);
 
-    const dataWithBase64 = result.recordset.map((row) => ({
+    const dataWithUrls = result.recordset.map((row) => ({
       WorkId: row.WorkId,
-      Image: row.Image ? row.Image.toString("base64") : null,
+      ImageUrl: row.ImageUrl || null,
     }));
 
     return res.status(200).json({
       success: true,
-      data: dataWithBase64,
+      data: dataWithUrls,
     });
   } catch (error) {
     console.error("Error fetching image data:", error);
@@ -3030,20 +3092,25 @@ ON ig.WorkId = matchedWorks.WorkId;
 };
 
 const uploadImage = async (req, res) => {
-  const { office, ImageUrl, filename, ContentType, Longitude, Latitude, WorkId, Type, Description } = req.body;
+  const { office, Data, filename, Content, Longitude, Latitude, WorkId, Type, Description } = req.body;
 
-  // Validate required fields
-  if (!office || !ImageUrl || !filename || Longitude == null || Latitude == null) {
+  // Validate required fields - Data is base64 image data
+  if (!office || !Data || !filename || Longitude == null || Latitude == null) {
     return res.status(400).json({
       success: false,
-      message: "Required fields missing"
+      message: "Required fields missing: office, Data (base64), filename, Longitude, Latitude"
     });
   }
 
   try {
+    // Upload image to Cloudinary
+    const contentType = Content || 'image/jpeg';
+    const cloudinaryUrl = await uploadToCloudinary(Data, contentType);
+
+    // Get database pool
     const pool = await getPool(office);
     
-    // Simply insert the URL into database (no Cloudinary upload needed)
+    // Insert the Cloudinary URL into database
     const query = `
       INSERT INTO [ImageGallary]
       ([WorkId], [Type], [ImageUrl], [ContentType], [Filepath], [Description], [Longitude], [Latitude])
@@ -3053,24 +3120,25 @@ const uploadImage = async (req, res) => {
     await pool.request()
       .input("WorkId", sql.NVarChar, WorkId)
       .input("Type", sql.NVarChar, Type)
-      .input("ImageUrl", sql.NVarChar, ImageUrl)
-      .input("ContentType", sql.NVarChar, ContentType)
+      .input("ImageUrl", sql.NVarChar, cloudinaryUrl)
+      .input("ContentType", sql.NVarChar, contentType)
       .input("Filename", sql.NVarChar, filename)
-      .input("Description", sql.NVarChar, Description)
+      .input("Description", sql.NVarChar, Description || '')
       .input("Longitude", sql.Float, Longitude)
       .input("Latitude", sql.Float, Latitude)
       .query(query);
 
     return res.status(200).json({
       success: true,
-      message: "Image URL stored successfully",
-      imageUrl: ImageUrl
+      message: "Image uploaded and stored successfully",
+      imageUrl: cloudinaryUrl,
+      ImageUrl: cloudinaryUrl
     });
   } catch (error) {
-    console.error("Error storing image URL:", error);
+    console.error("Error uploading image:", error);
     return res.status(500).json({
       success: false,
-      message: "Error storing image URL",
+      message: "Error uploading image to Cloudinary or storing in database",
       error: error.message
     });
   }
