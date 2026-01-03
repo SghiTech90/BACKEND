@@ -3092,20 +3092,41 @@ ON ig.WorkId = matchedWorks.WorkId;
 };
 
 const uploadImage = async (req, res) => {
-  const { office, Data, filename, Content, Longitude, Latitude, WorkId, Type, Description } = req.body;
+  const { office, Data, ImageUrl, filename, Content, Longitude, Latitude, WorkId, Type, Description } = req.body;
 
-  // Validate required fields - Data is base64 image data
-  if (!office || !Data || !filename || Longitude == null || Latitude == null) {
+  // Validate required fields
+  // Either ImageUrl (from frontend Cloudinary upload) or Data (base64) must be provided
+  if (!office || !filename || Longitude == null || Latitude == null) {
     return res.status(400).json({
       success: false,
-      message: "Required fields missing: office, Data (base64), filename, Longitude, Latitude"
+      message: "Required fields missing: office, filename, Longitude, Latitude"
+    });
+  }
+
+  // Must have either ImageUrl (already uploaded to Cloudinary) or Data (base64 to upload)
+  if (!ImageUrl && !Data) {
+    return res.status(400).json({
+      success: false,
+      message: "Either ImageUrl (Cloudinary URL) or Data (base64 image) must be provided"
     });
   }
 
   try {
-    // Upload image to Cloudinary
+    let cloudinaryUrl = null;
     const contentType = Content || 'image/jpeg';
-    const cloudinaryUrl = await uploadToCloudinary(Data, contentType);
+
+    // If ImageUrl is provided and is a valid URL, use it directly (already uploaded to Cloudinary)
+    if (ImageUrl && ImageUrl.startsWith('http')) {
+      console.log('✅ Using provided Cloudinary URL:', ImageUrl);
+      cloudinaryUrl = ImageUrl;
+    } else if (Data) {
+      // Fallback: Upload base64 image to Cloudinary
+      console.log('📤 Uploading base64 image to Cloudinary...');
+      cloudinaryUrl = await uploadToCloudinary(Data, contentType);
+      console.log('✅ Cloudinary upload successful:', cloudinaryUrl);
+    } else {
+      throw new Error('No valid image data provided');
+    }
 
     // Get database pool
     const pool = await getPool(office);
@@ -3128,6 +3149,8 @@ const uploadImage = async (req, res) => {
       .input("Latitude", sql.Float, Latitude)
       .query(query);
 
+    console.log('✅ Image URL saved to database successfully');
+
     return res.status(200).json({
       success: true,
       message: "Image uploaded and stored successfully",
@@ -3135,7 +3158,7 @@ const uploadImage = async (req, res) => {
       ImageUrl: cloudinaryUrl
     });
   } catch (error) {
-    console.error("Error uploading image:", error);
+    console.error("❌ Error uploading image:", error);
     return res.status(500).json({
       success: false,
       message: "Error uploading image to Cloudinary or storing in database",
